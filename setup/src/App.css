@@ -9,5 +9,16 @@ body {
   display: flex;
   align-items: left;
   justify-content: center;
-  margin: 20px;
+  padding: 20px;
+}
+
+.boxWrapper {
+  min-height: 200px;
+  margin: 24px;
+  padding: 18px;
+  width: calc(100% - 80px);
+}
+
+.carbon-dropdown{
+  width: 400px;
 }

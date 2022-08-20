@@ -3,7 +3,7 @@ import "./App.css";
 import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
 //Explore more Monday React Components here: https://style.monday.com/
-import { Heading, LinearProgressBar } from "monday-ui-react-core"
+import { Heading, MultiStepIndicator, Box, Flex, Dropdown } from "monday-ui-react-core"
 
 const monday = mondaySdk();
 
@@ -28,25 +28,43 @@ class App extends React.Component {
 
   }
 
-  steps = [{
-    key: "FULFILLED",
-    status: MultiStepIndicator.stepStatuses.FULFILLED,
-    titleText: "Step 1",
-    subtitleText: "Learn how to use monday CRM"
-  }, {
-    key: "PENDING",
-    status: MultiStepIndicator.stepStatuses.PENDING,
-    titleText: "Step 2",
-    subtitleText: "Integrate your email"
-  }, {
-    key: "PENDING-3",
-    status: MultiStepIndicator.stepStatuses.PENDING,
-    titleText: "Step 3",
-    subtitleText: "Import your data"
-  }];
-
 
   render() {
+
+    let steps = [{
+      key: "FULFILLED",
+      status: MultiStepIndicator.stepStatuses.FULFILLED,
+      titleText: "1 - Setup your Expense",
+      subtitleText: "Define CO Emission Sources for your business"
+    }, {
+      key: "PENDING",
+      status: MultiStepIndicator.stepStatuses.PENDING,
+      titleText: "2 - Define Carbon Neutralization Strategy",
+      subtitleText: "What you'll do to neutralize emissions?"
+    }, {
+      key: "PENDING-3",
+      status: MultiStepIndicator.stepStatuses.PENDING,
+      titleText: "3 - Approval",
+      subtitleText: "See your first score and perform changes if necessary."
+    }];
+
+
+    let tablesForExpenseRecords = [
+      {
+        label: 'Option 1',
+        value: 1
+      },
+      {
+        label: 'Option 2',
+        value: 2
+      },
+      {
+        label: 'Option 3',
+        value: 3
+      }
+    ];
+
+    
    
     return <div className="App" style={{
       display: "flex",
@@ -54,12 +72,34 @@ class App extends React.Component {
     }}>
      
 
-     <Heading type={Heading.types.h2} value="Hello World" size="small" />
-     <MultiStepIndicator className="monday-storybook-multiStepIndicator_big-size" steps={steps} textPlacement={MultiStepIndicator.textPlacements.VERTICAL} />;
+     <Heading type={Heading.types.h1} value="Welcome to Carbon Tracker" />
+     <MultiStepIndicator className="monday-storybook-multiStepIndicator_big-size" steps={steps} textPlacement={MultiStepIndicator.textPlacements.VERTICAL} />
+
+      <Box className="boxWrapper" shadow={Box.shadows.MEDIUM} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM} backgroundColor={Box.backgroundColors.GREY_BACKGROUND_COLOR}>
+      
+      <Flex direction={Flex.directions.COLUMN}>
+
+        <Heading type={Heading.types.h2} size="small" value="A. Choose Expense" />
+        <p>Choose a Table which contains your expense records.</p>
+        <Dropdown
+            className="dropdown-stories-styles_spacing carbon-dropdown"
+            onChange={function noRefCheck(){}}
+            onClear={function noRefCheck(){}}
+            onInputChange={function noRefCheck(){}}
+            onOptionRemove={function noRefCheck(){}}
+            onOptionSelect={function noRefCheck(){}}
+            options={tablesForExpenseRecords}
+            placeholder="Placeholder text here"
+        />
+
+
+
+        </Flex>
+      </Box>
 
 
   
-    </div>;
+    </div>
   }
 }
 
