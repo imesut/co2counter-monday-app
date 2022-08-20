@@ -7,6 +7,12 @@ body {
   height: 100vh;
   width: 100vw;
   display: flex;
-  align-items: center;
+  align-items: left;
   justify-content: center;
+  margin: 20px;
+}
+
+
+.fwidth{
+  width: calc(100% - 40px);
 }
