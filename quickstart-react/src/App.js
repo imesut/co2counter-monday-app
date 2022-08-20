@@ -3,7 +3,7 @@ import "./App.css";
 import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
 //Explore more Monday React Components here: https://style.monday.com/
-import { Heading, LinearProgressBar, Tooltip } from "monday-ui-react-core"
+import { Heading, LinearProgressBar } from "monday-ui-react-core"
 
 const monday = mondaySdk();
 
@@ -30,7 +30,7 @@ class App extends React.Component {
 
   render() {
 
-    let text = "Let's start building your amazing app, which will change the world! " + this.state.name
+    // let text = "Let's start building your amazing app, which will change the world! " + this.state.name
 
     let data = {
       this_year: {
@@ -57,6 +57,8 @@ class App extends React.Component {
     let net_target_rate = data.this_year.neutralization / data.this_year.net_target * 100;
     let month = 8;
     let OnTrackProgress = month / 12 * 100;
+    
+    let netOrOffsetRate = (data.this_year.emission - data.this_year.neutralization) / data.this_year.emission_target * 100;
 
     return <div className="App" style={{
       display: "flex",
@@ -88,7 +90,11 @@ class App extends React.Component {
         </div>  
       </div>
 
+<br></br>
 
+    <div className="plbar" style={{backgroundColor: "#ababab", width: 'calc('+emission_rate + '% - 10px)'}}>{data.this_year.emission} kg emission</div>
+    <div className="plbar" style={{backgroundColor: "green", left: netOrOffsetRate + '%', position: 'relative', width: 'calc('+data.this_year.neutralization/data.this_year.emission_target*100 + '% - 10px)'}}>{data.this_year.neutralization} kg neutralization</div>
+    <div className="plbar" style={{backgroundColor: "red", width: 'calc('+netOrOffsetRate + '% - 10px)'}}>{data.this_year.emission - data.this_year.neutralization} kg NET CO2</div>
 
 
 

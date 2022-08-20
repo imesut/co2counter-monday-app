@@ -16,3 +16,9 @@ body {
 .fwidth{
   width: calc(100% - 40px);
 }
+
+.plbar{
+  height: 20px;
+  padding: 5px;
+  overflow: scroll;
+}
