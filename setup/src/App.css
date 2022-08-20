@@ -16,9 +16,12 @@ body {
   min-height: 200px;
   margin: 24px;
   padding: 18px;
-  width: calc(100% - 80px);
+  width: calc(100% - 120px);
+  padding-bottom: 150px;
+  overflow: scroll !important;
 }
 
 .carbon-dropdown{
-  width: 400px;
+  max-width: 400px;
+  min-width: 250px;
 }
