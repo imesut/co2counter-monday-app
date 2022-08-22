@@ -2,21 +2,35 @@ import React from "react";
 import "./App.css";
 import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
+
 //Explore more Monday React Components here: https://style.monday.com/
-import { Heading, MultiStepIndicator, Box, Flex, Dropdown, Divider, Button, Steps } from "monday-ui-react-core"
+import { Heading, MultiStepIndicator, Box, Flex, Dropdown, Divider, Button, Icon } from "monday-ui-react-core"
+import { NavigationChevronRight, NavigationChevronLeft } from "monday-ui-react-core/dist/icons"
+
 
 const monday = mondaySdk();
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    // Default state
-    this.state = {
-      settings: {},
-      name: "",
-    };
-  }
+        this.state = {
+        settings: {},
+        name: "",
+        setupStep: 0
+        };
+    }
+
+    changeStep = (command) => {
+        console.log("command" + command)
+        if(command ===  "next"){
+            this.setState({ setupStep: this.state.setupStep + 1 })
+        }
+        else if(command === "back"){
+            this.setState({ setupStep: this.state.setupStep - 1 })
+        }
+        console.log(this.state.setupStep)
+    }
 
   componentDidMount() {
     // TODO: set up event listeners
@@ -64,7 +78,6 @@ class App extends React.Component {
       }
     ];
 
-    
    
     return <div className="App" style={{
       display: "flex",
@@ -124,12 +137,15 @@ class App extends React.Component {
         </Flex>
     </Flex>
 
-    <div style={{bottom: 0, position: "absolute", width: "inherit", padding: 8, backgroundColor: "#f6f7fb"}}>
-        <Divider />
-        <Steps activeStepIndex={0} steps={[<div/>,<div/>,<div/> ]} />
-
+    <div style={{bottom: 6, position: "absolute", width: "inherit", backgroundColor: "#f6f7fb", borderRadius: 8}} >
+        <Flex direction={Flex.directions.COLUMN}>
+            <Divider />
+            <Button style={{margin: 8}} size={Button.sizes.SMALL} disabled={false} rightIcon={NavigationChevronRight}
+                onClick={() => {this.changeStep("next")}} >
+                Next
+            </Button>
+        </Flex>
     </div>
-
     </Box>
 
 
