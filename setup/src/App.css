@@ -15,10 +15,12 @@ body {
 .boxWrapper {
   min-height: 200px;
   margin: 24px;
+  margin-bottom: 48px;
   padding: 18px;
   width: calc(100% - 120px);
   padding-bottom: 150px;
   overflow: scroll !important;
+  /* position: relative; */
 }
 
 .carbon-dropdown{
