@@ -4,7 +4,7 @@ import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
 
 //Explore more Monday React Components here: https://style.monday.com/
-import { Heading, MultiStepIndicator, Box, Flex, Dropdown, Divider, Button, Icon } from "monday-ui-react-core"
+import { Heading, MultiStepIndicator, Box, Flex, Dropdown, Divider, Button, Steps } from "monday-ui-react-core"
 import { NavigationChevronLeft, NavigationChevronRight } from "monday-ui-react-core/dist/icons"
 
 
@@ -17,14 +17,11 @@ class App extends React.Component {
         this.step0 = React.createRef();
         this.step1 = React.createRef();
         this.step2 = React.createRef();
-        this.nextButton = React.createRef();
-        this.backButton = React.createRef();
-
         this.steps = [this.step0, this.step1, this.step2]
 
         this.state = {
             settings: {},
-            setupStep: 1
+            setupStep: 0
         };
     }
 
@@ -42,19 +39,6 @@ class App extends React.Component {
         for (let i = 0; i < 3; i++) {
             console.log("iterating for" + i)
             this.steps[i].current.style.display = "none"
-        }
-
-        if(newCount === 2){
-            console.log("check")
-            this.nextButton.current.disabled = true;
-        } else{
-            this.nextButton.current.disabled = false;
-        }
-        if(newCount == 0){
-            this.backButton.current.disabled = true;
-        } else {
-            this.backButton.current.disabled = false;
-
         }
 
         this.steps[newCount].current.style.display = "flex";
@@ -182,26 +166,14 @@ class App extends React.Component {
 
         <Flex ref={this.step2} style={{display: "none"}} justify={Flex.justify.SPACE_AROUND}>
             3
-        </Flex>
+        </Flex>    
+    </Box>
 
-
-    <div style={{bottom: 0, position: "fixed", width: "inherit", margin: 0}} >
+    <div style={{width: "inherit", margin: 0}} >
         <Flex direction={Flex.directions.COLUMN}>
-            <Flex direction={Flex.directions.ROW}>
-                <Button ref={this.backButton} style={{margin: 8}} size={Button.sizes.SMALL} leftIcon={NavigationChevronLeft}
-                    onClick={() => {this.changeStep("back")}}
-                    disabled={(this.state.setupStep === 0 )}>
-                    Back
-                </Button>
-                <Button ref={this.nextButton} style={{margin: 8}} size={Button.sizes.SMALL} rightIcon={NavigationChevronRight}
-                    onClick={() => {this.changeStep("next")}}
-                    disabled={(this.state.setupStep === 2 )}>
-                    Next
-                </Button>
-            </Flex>
+            <Steps steps={[<div />,<div />,<div />]} activeStepIndex={step} onChangeActiveStep={ (e, s) => {this.changeStep(s)} }/>
         </Flex>
     </div>
-    </Box>
 
     </div>
   }
