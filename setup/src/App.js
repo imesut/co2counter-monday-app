@@ -10,6 +10,9 @@ import { Calendar } from "monday-ui-react-core/dist/icons"
 import SplitedDivider from "./Views/SplitedDivider"
 import YearBreakdowns from "./Views/YearBreakdowns"
 
+import SetupSteps from "./Models/DynamicLists";
+import {tablesForExpenseRecords, carbonNeutralizationStrategies} from "./Models/StaticLists";
+
 
 // const monday = mondaySdk();
 
@@ -69,8 +72,12 @@ class App extends React.Component {
     
 
     calculateEmissionTargets = () => {
+        console.log("calculate emissions called.")
 
-        let totalToBeNeutralized = this.data.this_year.emission + this.data.policy.endTarget;
+        let policy = this.data.policy.policy_selection
+        let operation = (policy === 1) ? 1 : ( policy === 0 ? 0 : -1); // Minus if the policy is to reach a level. 
+
+        let totalToBeNeutralized = (this.data.this_year.emission*1 + this.data.policy.endTarget * operation);
         // let years = this.data.policy.years;
 
         // Update global objects
@@ -96,45 +103,9 @@ class App extends React.Component {
 
 
   render() {
-
-    // Abbreviation
     let step = this.state.setupStep;
 
     console.log("repeatessss?")
-
-    let steps = [{
-      key: "STEP1",
-      status: step > 0 ? MultiStepIndicator.stepStatuses.FULFILLED : MultiStepIndicator.stepStatuses.ACTIVE,
-      titleText: "1 - Expenses",
-      subtitleText: ""
-    }, {
-      key: "STEP2",
-      status: step > 1 ? MultiStepIndicator.stepStatuses.FULFILLED : (step === 1 ? MultiStepIndicator.stepStatuses.ACTIVE : MultiStepIndicator.stepStatuses.PENDING),
-      titleText: "2 - Carbon Neutralization",
-      subtitleText: ""
-    }, {
-      key: "STEP3",
-      status: step === 2 ? MultiStepIndicator.stepStatuses.ACTIVE : MultiStepIndicator.stepStatuses.PENDING,
-      titleText: "3 - Approve",
-      subtitleText: ""
-    }];
-
-
-    let tablesForExpenseRecords = [
-      {
-        label: 'Option 1',
-        value: 1
-      },
-      {
-        label: 'Option 2',
-        value: 2
-      },
-      {
-        label: 'Option 3',
-        value: 3
-      }
-    ];
-
     
     return <div className="App" style={{
                 display: "flex",
@@ -145,12 +116,19 @@ class App extends React.Component {
         <Heading type={Heading.types.h1} value="Welcome to Carbon Tracker" />
         <p>Set up your carbon policy by following our pre-built schema or by customizing for your own needs.</p>
         <MultiStepIndicator className="monday-storybook-multiStepIndicator_big-size"
-            steps={steps}
+            steps={SetupSteps(step)}
             textPlacement={MultiStepIndicator.textPlacements.VERTICAL}
             onClick={ (step) => {this.changeStep(step - 1)} } />
     </Flex>
     <Box className="boxWrapper" shadow={Box.shadows.MEDIUM} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM} backgroundColor={Box.backgroundColors.GREY_BACKGROUND_COLOR}>
         
+
+        {/* 
+        
+        STEP 0
+        
+        */}
+
         <Flex ref={this.step0} style={{display: "none"}} justify={Flex.justify.SPACE_AROUND}>
         <Flex justify={Flex.justify.START} direction={Flex.directions.COLUMN}>
                 <Heading type={Heading.types.h2} size="small" value="Create Prebuilt Schema" />
@@ -188,6 +166,16 @@ class App extends React.Component {
             </Flex>
         </Flex>
 
+
+
+
+
+        {/* 
+        
+        STEP 1
+        
+        */}
+
         <Flex ref={this.step1} style={{display: "none"}} direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
             
             <p>Your current emission is: <b>{this.data.this_year.emission.toLocaleString("en-US")}</b> kg-CO2.</p>
@@ -200,34 +188,27 @@ class App extends React.Component {
                 <div className="rowItemSpacer" style={{ minWidth: '300px' }}>
                 <Dropdown
                     ref={this.policySelectorRef}
-                    defaultValue={[{ label: "⚖️ be Carbon Neutral", value: 0 }]}
                     onChange={(e) => {
                         this.data.policy.policy_selection = e.value;
                         this.data.policy.policy_name = e.label;
+                        this.calculateEmissionTargets();
+                        
                         // Trigger a refresh
                         this.setState({setupStep: this.state.setupStep});
                     }}
-                    options={[
-                    {
-                        label: "⚖️ be Carbon Neutral",
-                        value: 0
-                    },
-                    {
-                        label: "↘️ Reduce our emission to:",
-                        value: 1
-                    },
-                    {
-                        label: "✅ Carbon Positive with:",
-                        value: 2
-                    }
-                    ]}
-                    placeholder="⚖️ be Carbon Neutral"
+                    options={ carbonNeutralizationStrategies }
+                    placeholder={ carbonNeutralizationStrategies[0].label }
+                    // defaultValue={ carbonNeutralizationStrategies[0] }
                 />
                 </div>
 
                 <div className="whiteBg" style={{ display: (this.data.policy.policy_selection > 0 ? 'flex' : 'none') }}>
                 <TextField className="rowItemSpacer" type={"number"} value={0} size={TextField.sizes.MEDIUM}
-                    onChange={ (e) => { this.data.policy.endTarget = e.value }} />
+                    onChange={(value) => {
+                            this.data.policy.endTarget = value;
+                            this.calculateEmissionTargets();
+                        }
+                        } />
                 {/* <p className="rowItemSpacer noWrap">kg-CO2</p> */}
                 
                 </div>  
@@ -242,11 +223,11 @@ class App extends React.Component {
                 <p className="rowItemSpacer">in</p>
                 <div className="whiteBg">
                 <TextField className="rowItemSpacer" type={"number"} value={4} iconName={Calendar} size={TextField.sizes.MEDIUM}
-                    onChange={ (e) => {
-                        this.data.policy.years = e.value;
+                    onChange={(value) => {
+                        this.data.policy.years = value;
                         this.calculateEmissionTargets();
                         }
-                }
+                    }
                 />
                 </div>
                 <p className="rowItemSpacer">years.</p>
@@ -254,13 +235,25 @@ class App extends React.Component {
 
             <SplitedDivider text="So, We commit;"/>
             
-            <YearBreakdowns totalToBeNeutralized={ this.data.policy.totalToBeNeutralized } years={ this.data.policy.years } />
+            <YearBreakdowns
+                totalToBeNeutralized={ this.data.policy.totalToBeNeutralized }
+                years={ this.data.policy.years }
+                currentEmission={ this.data.this_year.emission } />
             
         </Flex>
 
+
+
+
+        {/* 
+        
+        STEP 2
+        
+        */}
+
         <Flex ref={this.step2} style={{display: "none"}} justify={Flex.justify.SPACE_AROUND}>
             3
-        </Flex>    
+        </Flex>
     </Box>
 
     <div style={{width: "inherit"}} >
