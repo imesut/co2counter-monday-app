@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Heading, Button, Dropdown, TextField } from "monday-ui-react-core"
+import { Flex, Dropdown, TextField } from "monday-ui-react-core"
 import { Calendar } from "monday-ui-react-core/dist/icons"
 
 import SplitedDivider from "../Components/SplitedDivider"
@@ -7,6 +7,7 @@ import {carbonNeutralizationStrategies} from "../Data/StaticLists";
 
 import YearBreakdowns from "./../Components/YearBreakdowns"
 import calculateEmissionTargets from "../Models/Calculators";
+import TargetGraph from "../Components/TargetGraph";
 
 export default class SetupStep2 extends React.Component {
 
@@ -68,6 +69,8 @@ export default class SetupStep2 extends React.Component {
                 </Flex>
 
                 <SplitedDivider text="So, We commit;"/>
+
+                <TargetGraph></TargetGraph>
                 
                 <YearBreakdowns
                     totalToBeNeutralized={ data.policy.totalToBeNeutralized }
