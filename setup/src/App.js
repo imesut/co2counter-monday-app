@@ -4,8 +4,8 @@ import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
 
 //Explore more Monday React Components here: https://style.monday.com/
-import { Heading, MultiStepIndicator, Box, Flex, Dropdown, Divider, Button, Steps } from "monday-ui-react-core"
-import { NavigationChevronLeft, NavigationChevronRight } from "monday-ui-react-core/dist/icons"
+import { Heading, MultiStepIndicator, Box, Flex, Dropdown, Divider, Button, Steps, TextField } from "monday-ui-react-core"
+import { Calendar } from "monday-ui-react-core/dist/icons"
 
 
 const monday = mondaySdk();
@@ -19,10 +19,26 @@ class App extends React.Component {
         this.step2 = React.createRef();
         this.steps = [this.step0, this.step1, this.step2]
 
+        this.policySelectorRef = React.createRef();
+
         this.state = {
             settings: {},
-            setupStep: 0
+            setupStep: 1
         };
+
+        this.month = 8;
+
+        this.data = {
+            this_year: {
+                emission: 105000
+            },
+            policy: {
+                policy_selection: -1,
+                policy_name: "",
+                this_year:{
+                }
+            }
+        }
     }
 
     changeStep = (commandOrCount) => {
@@ -65,6 +81,7 @@ class App extends React.Component {
 
   render() {
 
+    // Abbreviation
     let step = this.state.setupStep;
 
     console.log("repeatessss?")
@@ -102,8 +119,7 @@ class App extends React.Component {
       }
     ];
 
-
-   
+    
     return <div className="App" style={{
                 display: "flex",
                 flexDirection: "column"
@@ -160,8 +176,45 @@ class App extends React.Component {
             </Flex>
         </Flex>
 
-        <Flex ref={this.step1} style={{display: "none"}} justify={Flex.justify.SPACE_AROUND}>
-            2
+        <Flex ref={this.step1} style={{display: "none"}} direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
+            
+            <p>Your current emission is, <b>{this.data.this_year.emission.toLocaleString("en-US")}</b> kg-CO2.</p>
+            <Divider></Divider>
+            <p>We want to,</p>
+
+            <Flex direction={Flex.directions.ROW}>
+                <div style={{ width: '500px' }}>
+                <Dropdown
+                    ref={this.policySelectorRef}
+                    defaultValue={[{ label: "⚖️ be Carbon Neutral", value: 0 }]}
+                    options={[
+                    {
+                        label: "⚖️ be Carbon Neutral",
+                        value: 0
+                    },
+                    {
+                        label: "↘️ Reduce our emission to:",
+                        value: 1
+                    },
+                    {
+                        label: "✅ Carbon Positive with:",
+                        value: 2
+                    }
+                    ]}
+                    placeholder="⚖️ be Carbon Neutral"
+                />
+
+        </div>
+        {/* <TextField style={{display: this.policySelectorRef.current.value > 0 ? "flex" : "none"}} type={"number"} value={4} iconName={Calendar} size={TextField.sizes.MEDIUM} /> */}
+
+        <p style={{margin: 12}}>in</p>
+        <TextField type={"number"} value={4} iconName={Calendar} size={TextField.sizes.MEDIUM} />
+        <p style={{margin: 12}}>years</p>
+
+        </Flex>
+
+
+
         </Flex>
 
         <Flex ref={this.step2} style={{display: "none"}} justify={Flex.justify.SPACE_AROUND}>
@@ -169,7 +222,7 @@ class App extends React.Component {
         </Flex>    
     </Box>
 
-    <div style={{width: "inherit", margin: 0}} >
+    <div style={{width: "inherit"}} >
         <Flex direction={Flex.directions.COLUMN}>
             <Steps steps={[<div />,<div />,<div />]} activeStepIndex={step} onChangeActiveStep={ (e, s) => {this.changeStep(s)} }/>
         </Flex>
