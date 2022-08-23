@@ -1,14 +1,17 @@
 import React from "react";
 import "./App.css";
-import mondaySdk from "monday-sdk-js";
+// import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
 
 //Explore more Monday React Components here: https://style.monday.com/
-import { Heading, MultiStepIndicator, Box, Flex, Dropdown, Divider, Button, Steps, TextField } from "monday-ui-react-core"
+import { Heading, MultiStepIndicator, Box, Flex, Dropdown, Button, Steps, TextField } from "monday-ui-react-core"
 import { Calendar } from "monday-ui-react-core/dist/icons"
 
+import SplitedDivider from "./Views/SplitedDivider"
+import YearBreakdowns from "./Views/YearBreakdowns"
 
-const monday = mondaySdk();
+
+// const monday = mondaySdk();
 
 class App extends React.Component {
     constructor(props) {
@@ -35,6 +38,9 @@ class App extends React.Component {
             policy: {
                 policy_selection: -1,
                 policy_name: "",
+                years: 4,
+                endTarget: 0,
+                totalToBeNeutralized: 0, // data.this_year.emission + endTarget
                 this_year:{
                 }
             }
@@ -61,6 +67,16 @@ class App extends React.Component {
         this.setState({ setupStep: newCount })
     }
     
+
+    calculateEmissionTargets = () => {
+
+        let totalToBeNeutralized = this.data.this_year.emission + this.data.policy.endTarget;
+        // let years = this.data.policy.years;
+
+        // Update global objects
+        this.data.policy.totalToBeNeutralized = totalToBeNeutralized;
+        this.setState({ setupStep: this.state.setupStep })
+    }
 
   componentDidMount() {
 
@@ -141,12 +157,8 @@ class App extends React.Component {
                 <Button onClick={function noRefCheck(){}}>
                 Create
                 </Button>
-                
-            <div style={{ width: '600px' }}>
-                <Flex>
-                <Divider /><span style={{padding: 20, width: 300}}>or Customize</span><Divider />
-                </Flex>
-            </div>
+
+            <SplitedDivider text="or Customize" />
 
                 <Heading type={Heading.types.h3} size="small" value="First, Choose Expense" />
                 <p>Choose a Table which contains your expense records.</p>
@@ -178,15 +190,23 @@ class App extends React.Component {
 
         <Flex ref={this.step1} style={{display: "none"}} direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
             
-            <p>Your current emission is, <b>{this.data.this_year.emission.toLocaleString("en-US")}</b> kg-CO2.</p>
-            <Divider></Divider>
+            <p>Your current emission is: <b>{this.data.this_year.emission.toLocaleString("en-US")}</b> kg-CO2.</p>
+            
+            <SplitedDivider text="↓" />
+            
             <p>We want to,</p>
 
             <Flex direction={Flex.directions.ROW}>
-                <div style={{ width: '500px' }}>
+                <div className="rowItemSpacer" style={{ minWidth: '300px' }}>
                 <Dropdown
                     ref={this.policySelectorRef}
                     defaultValue={[{ label: "⚖️ be Carbon Neutral", value: 0 }]}
+                    onChange={(e) => {
+                        this.data.policy.policy_selection = e.value;
+                        this.data.policy.policy_name = e.label;
+                        // Trigger a refresh
+                        this.setState({setupStep: this.state.setupStep});
+                    }}
                     options={[
                     {
                         label: "⚖️ be Carbon Neutral",
@@ -203,18 +223,39 @@ class App extends React.Component {
                     ]}
                     placeholder="⚖️ be Carbon Neutral"
                 />
+                </div>
 
-        </div>
-        {/* <TextField style={{display: this.policySelectorRef.current.value > 0 ? "flex" : "none"}} type={"number"} value={4} iconName={Calendar} size={TextField.sizes.MEDIUM} /> */}
+                <div className="whiteBg" style={{ display: (this.data.policy.policy_selection > 0 ? 'flex' : 'none') }}>
+                <TextField className="rowItemSpacer" type={"number"} value={0} size={TextField.sizes.MEDIUM}
+                    onChange={ (e) => { this.data.policy.endTarget = e.value }} />
+                {/* <p className="rowItemSpacer noWrap">kg-CO2</p> */}
+                
+                </div>  
+                <p className="rowItemSpacer">,</p>
+                  
+               
+            </Flex>
+        
 
-        <p style={{margin: 12}}>in</p>
-        <TextField type={"number"} value={4} iconName={Calendar} size={TextField.sizes.MEDIUM} />
-        <p style={{margin: 12}}>years</p>
+            {/* Years defined here. */}
+            <Flex direction={Flex.directions.ROW}>
+                <p className="rowItemSpacer">in</p>
+                <div className="whiteBg">
+                <TextField className="rowItemSpacer" type={"number"} value={4} iconName={Calendar} size={TextField.sizes.MEDIUM}
+                    onChange={ (e) => {
+                        this.data.policy.years = e.value;
+                        this.calculateEmissionTargets();
+                        }
+                }
+                />
+                </div>
+                <p className="rowItemSpacer">years.</p>
+            </Flex>
 
-        </Flex>
-
-
-
+            <SplitedDivider text="So, We commit;"/>
+            
+            <YearBreakdowns totalToBeNeutralized={ this.data.policy.totalToBeNeutralized } years={ this.data.policy.years } />
+            
         </Flex>
 
         <Flex ref={this.step2} style={{display: "none"}} justify={Flex.justify.SPACE_AROUND}>

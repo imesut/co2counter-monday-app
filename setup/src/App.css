@@ -8,7 +8,7 @@ body {
   width: 100vw;
   display: flex;
   align-items: left;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 20px;
 }
 
@@ -26,4 +26,17 @@ body {
 .carbon-dropdown{
   max-width: 400px;
   min-width: 250px;
+}
+
+.rowItemSpacer{
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.noWrap{
+  white-space: nowrap;
+}
+
+.whiteBg{
+  background-color: white;
 }
