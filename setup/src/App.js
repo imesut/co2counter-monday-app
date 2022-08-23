@@ -6,6 +6,7 @@ import { Heading, MultiStepIndicator, Box, Flex, Steps } from "monday-ui-react-c
 
 // Views - Steps
 import SetupStep0 from "./Views/SetupStep0"
+import SetupStep1 from "./Views/SetupStep1";
 import SetupStep2 from "./Views/SetupStep2";
 
 // Data Lists
@@ -98,7 +99,7 @@ class App extends React.Component {
                 {/* STEP 1 */}
                 <Flex ref={this.step1} style={{display: "none"}}
                     direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
-                    2
+                    <SetupStep1 />
                 </Flex>
 
                 {/* STEP 2 */}
@@ -115,7 +116,7 @@ class App extends React.Component {
                     onChangeActiveStep={ (event, stepNo) => {changeStep(this, stepNo)} }/>
                 </Flex>
             </div>
-            
+
         </div>
     }
 }
