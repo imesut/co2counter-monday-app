@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex, Heading, Button, Dropdown } from "monday-ui-react-core"
 
-import SplitedDivider from "./SplitedDivider"
+import SplitedDivider from "../Components/SplitedDivider"
 import {tablesForExpenseRecords} from "./../Models/StaticLists";
 
 

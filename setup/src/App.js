@@ -2,21 +2,14 @@ import React from "react";
 import "./App.css";
 // import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
+import { Heading, MultiStepIndicator, Box, Flex, Steps } from "monday-ui-react-core"
 
-//Explore more Monday React Components here: https://style.monday.com/
-import { Heading, MultiStepIndicator, Box, Flex, Dropdown, Button, Steps, TextField } from "monday-ui-react-core"
-import { Calendar } from "monday-ui-react-core/dist/icons"
-
-import SplitedDivider from "./Views/SplitedDivider"
-import YearBreakdowns from "./Views/YearBreakdowns"
-
+// Steps
 import SetupStep0 from "./Views/SetupStep0"
 import SetupStep2 from "./Views/SetupStep2";
 
-
+// Data Lists
 import SetupSteps from "./Models/DynamicLists";
-import {tablesForExpenseRecords, carbonNeutralizationStrategies} from "./Models/StaticLists";
-
 
 // const monday = mondaySdk();
 
@@ -99,8 +92,6 @@ class App extends React.Component {
     this.steps[step].current.style.display = "flex";
 
     this.calculateEmissionTargets()
-
-    // TODO: set up event listeners
 
     // monday.api(`query { me { name } }`).then((res) => {
     //   this.setState({ name: res.data.me.name });
