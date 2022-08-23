@@ -2,7 +2,7 @@ import React from "react";
 import { Flex, Heading, Button, Dropdown } from "monday-ui-react-core"
 
 import SplitedDivider from "../Components/SplitedDivider"
-import {tablesForExpenseRecords} from "./../Models/StaticLists";
+import {tablesForExpenseRecords} from "../Data/StaticLists";
 
 
 export default class SetupStep0 extends React.Component {

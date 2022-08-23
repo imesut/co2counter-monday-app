@@ -2,10 +2,11 @@ import React from "react";
 import { Flex, Heading, Button, Dropdown, TextField } from "monday-ui-react-core"
 import { Calendar } from "monday-ui-react-core/dist/icons"
 
-import SplitedDivider from "./SplitedDivider"
-import {carbonNeutralizationStrategies} from "./../Models/StaticLists";
+import SplitedDivider from "../Components/SplitedDivider"
+import {carbonNeutralizationStrategies} from "../Data/StaticLists";
 
-import YearBreakdowns from "./YearBreakdowns"
+import YearBreakdowns from "./../Components/YearBreakdowns"
+import calculateEmissionTargets from "../Models/Calculators";
 
 export default class SetupStep2 extends React.Component {
 
@@ -13,8 +14,6 @@ export default class SetupStep2 extends React.Component {
 
         let context = this.props.context ? this.props.context : {};
         let data = context.data;
-
-        console.log("context", context)
 
         return(
             <>
@@ -28,7 +27,7 @@ export default class SetupStep2 extends React.Component {
                             onChange={(e) => {
                                 data.policy.policy_selection = e.value;
                                 data.policy.policy_name = e.label;
-                                context.calculateEmissionTargets();
+                                calculateEmissionTargets(context);
                                 // Trigger a refresh
                                 context.setState({setupStep: context.state.setupStep});
                             }}
@@ -42,7 +41,7 @@ export default class SetupStep2 extends React.Component {
                         <TextField className="rowItemSpacer whiteBg" type={"number"} value={0} size={TextField.sizes.MEDIUM}
                             onChange={(value) => {
                                     data.policy.endTarget = value;
-                                    context.calculateEmissionTargets();
+                                    calculateEmissionTargets(context);
                                 }
                                 } />
                         {/* <p className="rowItemSpacer noWrap">kg-CO2</p> */}
@@ -60,7 +59,7 @@ export default class SetupStep2 extends React.Component {
                         <TextField className="rowItemSpacer whiteBg" type={"number"} value={4} iconName={Calendar} size={TextField.sizes.MEDIUM}
                             onChange={(value) => {
                                 data.policy.years = value;
-                                context.calculateEmissionTargets();
+                                calculateEmissionTargets(context);
                                 }
                             }
                         />

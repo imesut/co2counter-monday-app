@@ -4,12 +4,16 @@ import "./App.css";
 import "monday-ui-react-core/dist/main.css"
 import { Heading, MultiStepIndicator, Box, Flex, Steps } from "monday-ui-react-core"
 
-// Steps
+// Views - Steps
 import SetupStep0 from "./Views/SetupStep0"
 import SetupStep2 from "./Views/SetupStep2";
 
 // Data Lists
-import SetupSteps from "./Models/DynamicLists";
+import SetupSteps from "./Data/DynamicLists";
+
+//Models
+import changeStep from "./Models/ViewModels";
+import calculateEmissionTargets from "./Models/Calculators";
 
 // const monday = mondaySdk();
 
@@ -21,7 +25,6 @@ class App extends React.Component {
         this.step1 = React.createRef();
         this.step2 = React.createRef();
         this.steps = [this.step0, this.step1, this.step2]
-
         this.policySelectorRef = React.createRef();
 
         this.state = {
@@ -47,64 +50,25 @@ class App extends React.Component {
         }
     }
 
-    changeStep = (commandOrCount) => {
-        let newCount = this.state.setupStep;
-
-        if(commandOrCount ===  "next"){
-            newCount = this.state.setupStep + 1;
-        } else if(commandOrCount === "back"){
-            newCount = this.state.setupStep - 1;
-        } else{
-            newCount = commandOrCount;
-        }
-
-        for (let i = 0; i < 3; i++) {
-            console.log("iterating for" + i)
-            this.steps[i].current.style.display = "none"
-        }
-
-        this.steps[newCount].current.style.display = "flex";
-        this.setState({ setupStep: newCount })
-    }
-    
-
-    calculateEmissionTargets = () => {
-        console.log("calculate emissions called.")
-
-        let policy = this.data.policy.policy_selection
-        let operation = (policy === 1) ? 1 : ( policy === 0 ? 0 : -1); // Minus if the policy is to reach a level. 
-
-        let totalToBeNeutralized = (this.data.this_year.emission*1 + this.data.policy.endTarget * operation);
-        // let years = this.data.policy.years;
-
-        // Update global objects
-        this.data.policy.totalToBeNeutralized = totalToBeNeutralized;
-        this.setState({ setupStep: this.state.setupStep })
-    }
-
-
 
   componentDidMount() {
 
-    console.log("repeats ?")
-
+    // console.log("repeats ?")
     let step = this.state.setupStep;
     this.steps[step].current.style.display = "flex";
-
-    this.calculateEmissionTargets()
+    calculateEmissionTargets(this)
 
     // monday.api(`query { me { name } }`).then((res) => {
     //   this.setState({ name: res.data.me.name });
     //   console.log(res.data.me.name)
     // });
-
   }
 
 
   render() {
     let step = this.state.setupStep;
 
-    console.log("repeatessss?")
+    // console.log("repeatessss?")
     
     return <div className="App" style={{ display: "flex", flexDirection: "column" }}>
 
@@ -112,13 +76,19 @@ class App extends React.Component {
                 <Heading type={Heading.types.h1} value="Welcome to Carbon Tracker" />
                 <p>Set up your carbon policy by following our pre-built schema or by customizing for your own needs.</p>
                 
-                <MultiStepIndicator className="monday-storybook-multiStepIndicator_big-size"
+                <MultiStepIndicator
+                    className="monday-storybook-multiStepIndicator_big-size"
                     steps={SetupSteps(step)}
                     textPlacement={MultiStepIndicator.textPlacements.VERTICAL}
-                    onClick={ (step) => {this.changeStep(step - 1)} } />
+                    onClick={ (step) => {changeStep(this, step - 1)} } />
             </Flex>
             
-            <Box className="boxWrapper" shadow={Box.shadows.MEDIUM} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM} backgroundColor={Box.backgroundColors.GREY_BACKGROUND_COLOR}>
+            <Box
+                className="boxWrapper"
+                shadow={Box.shadows.MEDIUM}
+                border={Box.borders.DEFAULT}
+                rounded={Box.roundeds.MEDIUM}
+                backgroundColor={Box.backgroundColors.GREY_BACKGROUND_COLOR}>
                 
                 {/* STEP 0 */}
                 <Flex ref={this.step0} style={{display: "none"}} justify={Flex.justify.SPACE_AROUND}>
@@ -126,22 +96,26 @@ class App extends React.Component {
                 </Flex>
 
                 {/* STEP 1 */}
-                <Flex ref={this.step1} style={{display: "none"}} direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
+                <Flex ref={this.step1} style={{display: "none"}}
+                    direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
                     2
                 </Flex>
 
                 {/* STEP 2 */}
-                <Flex ref={this.step2} style={{display: "none"}} direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
+                <Flex ref={this.step2} style={{display: "none"}}
+                    direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
                     <SetupStep2 context={this} data={this.data} />            
                 </Flex>
+
             </Box>
 
             <div style={{width: "inherit"}} >
                 <Flex direction={Flex.directions.COLUMN}>
-                    <Steps steps={[<div />,<div />,<div />]} activeStepIndex={step} onChangeActiveStep={ (e, s) => {this.changeStep(s)} }/>
+                    <Steps steps={[<div />, <div />, <div />]} activeStepIndex={step}
+                    onChangeActiveStep={ (event, stepNo) => {changeStep(this, stepNo)} }/>
                 </Flex>
             </div>
-
+            
         </div>
     }
 }
