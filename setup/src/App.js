@@ -38,7 +38,9 @@ class App extends React.Component {
 
         this.data = {
             this_year: {
-                emission: 105000
+                emission: 105000,
+                neutralized: 5000,
+                net: 100000
             },
             policy: {
                 policy_selection: -1,

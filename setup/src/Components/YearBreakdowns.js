@@ -39,7 +39,12 @@ export default class YearBreakdowns extends React.Component {
                 <Flex direction={Flex.directions.ROW}>
                     <p className="noWrap rowItemSpacer">Net Emission for Year {item.year}:</p>
                     <div className="whiteBg">
-                        <TextField className="rowItemSpacer" type={"number"} value={ item.target } />
+                        <TextField className="rowItemSpacer" type={"number"} value={ item.target } onChange={
+                            (value)=>{
+                                context.data.policy.breakdown[y].target = value;
+                                context.setState({setupStep: context.state.setupStep});
+                            }
+                        } />
                         { (y === 0 & !context.state.breakdownCustomizationTipDismissed) ? this.tipseen : "" }
                     </div>
                 </Flex>

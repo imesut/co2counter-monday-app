@@ -82,7 +82,18 @@ export default class SetupStep2 extends React.Component {
 
                     <TargetGraph targets={context.data.policy.breakdown} current={context.data.this_year.emission}></TargetGraph>
 
-                    <YearOverviewGraph />
+                    <YearOverviewGraph
+                        currentEmission={context.data.this_year.emission}
+                        currentNeutralized={context.data.this_year.neutralized}
+                        limitEmission={eoyEmissionForecast(context.data.this_year.emission)}
+                        netEmission={context.data.this_year.net}  />
+
+
+                    {/* this_year: {
+                        emission: 105000,
+                        neutralized: 0,
+                        net: 105000
+                    } */}
 
                 {/* </Flex> */}
             </>
