@@ -1,4 +1,6 @@
-import React, { PureComponent } from "react";
+import React from "react";
+// import { PureComponent } from "react";
+
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, ReferenceDot } from 'recharts';
 
 
@@ -6,7 +8,7 @@ export default class TargetGraph extends React.Component {
 
     render(){
 
-        let targets = this.props.targets ? this.props.targets : [];
+        // let targets = this.props.targets ? this.props.targets : [];
 
         const data = [
             {

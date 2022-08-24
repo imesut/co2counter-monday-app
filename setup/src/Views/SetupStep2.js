@@ -6,7 +6,7 @@ import SplitedDivider from "../Components/SplitedDivider"
 import {carbonNeutralizationStrategies} from "../Data/StaticLists";
 
 import YearBreakdowns from "./../Components/YearBreakdowns"
-import calculateEmissionTargets from "../Models/Calculators";
+import {calculateEmissionTargets} from "../Models/Calculators";
 import TargetGraph from "../Components/TargetGraph";
 
 export default class SetupStep2 extends React.Component {
@@ -24,7 +24,7 @@ export default class SetupStep2 extends React.Component {
                 <Flex direction={Flex.directions.ROW}>
                     <div className="rowItemSpacer" style={{ minWidth: '300px' }}>
                         <Dropdown
-                            ref={context.policySelectorRef}
+                            // ref={context.policySelectorRef}
                             onChange={(e) => {
                                 data.policy.policy_selection = e.value;
                                 data.policy.policy_name = e.label;
@@ -75,7 +75,8 @@ export default class SetupStep2 extends React.Component {
                 <YearBreakdowns
                     totalToBeNeutralized={ data.policy.totalToBeNeutralized }
                     years={ data.policy.years }
-                    currentEmission={ data.this_year.emission } />
+                    currentEmission={ data.this_year.emission }
+                    context={ context } />
             </>
         )
     }

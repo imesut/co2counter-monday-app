@@ -14,7 +14,7 @@ import SetupSteps from "./Data/DynamicLists";
 
 //Models
 import changeStep from "./Models/ViewModels";
-import calculateEmissionTargets from "./Models/Calculators";
+import {calculateEmissionTargets} from "./Models/Calculators";
 
 // const monday = mondaySdk();
 
@@ -26,7 +26,7 @@ class App extends React.Component {
         this.step1 = React.createRef();
         this.step2 = React.createRef();
         this.steps = [this.step0, this.step1, this.step2]
-        this.policySelectorRef = React.createRef();
+        // this.policySelectorRef = React.createRef();
 
         this.state = {
             settings: {},
@@ -42,11 +42,15 @@ class App extends React.Component {
             policy: {
                 policy_selection: -1,
                 policy_name: "",
-                years: 4,
+                years: 3,
                 endTarget: 0,
                 totalToBeNeutralized: 0, // data.this_year.emission + endTarget
-                this_year:{
-                }
+                breakdown:[
+                    { year: 1, target: 78750 },
+                    { year: 2, target: 52500 },
+                    { year: 3, target: 26250 },
+                    { year: 4, target: 0 }
+                ]
             }
         }
     }

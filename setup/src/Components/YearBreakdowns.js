@@ -1,30 +1,36 @@
 import React from "react";
 
 import { Flex, TextField } from "monday-ui-react-core"
+import {calculateAnnualTargets} from "./../Models/Calculators"
 
 export default class YearBreakdowns extends React.Component {
 
     render(){
-        let years = this.props.years ? this.props.years : 1;
-        let items = [];
-        let totalToBeNeutralized = this.props.totalToBeNeutralized ? this.props.totalToBeNeutralized : 0;
-        let currentEmission = this.props.currentEmission ? this.props.currentEmission : 0;
-        let perYearValue = totalToBeNeutralized / years;
-        // console.log(totalToBeNeutralized, perYearValue, currentEmission)
-        // console.log(this.props)
-        // console.log("Year breakdowns called for " + years + " years.")
 
-        for (let y = 0; y < years; y++) {
-            items.push(
+        let context = this.props.context ? this.props.context : {};
+        let years = this.props.years ? this.props.years : 1;
+        let currentEmission = this.props.currentEmission ? this.props.currentEmission : 0;
+        let totalToBeNeutralized = this.props.totalToBeNeutralized ? this.props.totalToBeNeutralized : 0;
+
+        calculateAnnualTargets(context, years, currentEmission, totalToBeNeutralized);
+        
+        let viewItems = [];
+        for (let y = 0; y < context.data.policy.breakdown.length; y++) {
+            
+            let item = context.data.policy.breakdown[y];
+            viewItems.push(
                 <Flex direction={Flex.directions.ROW}>
-                    <p className="noWrap rowItemSpacer">Net Emission for Year {y + 1}:</p>
+                    <p className="noWrap rowItemSpacer">Net Emission for Year {item.year}:</p>
                     <div className="whiteBg">
-                        <TextField className="rowItemSpacer" type={"number"} value={ currentEmission - perYearValue * (y + 1) } />
+                        <TextField className="rowItemSpacer" type={"number"} value={ item.target } />
                     </div>
                 </Flex>
             )   
         }
+
+
        
-        return( items );
-    }   
+        return( viewItems );
+    }
+
 }
