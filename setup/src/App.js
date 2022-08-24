@@ -30,7 +30,8 @@ class App extends React.Component {
 
         this.state = {
             settings: {},
-            setupStep: 2
+            setupStep: 2,
+            breakdownCustomizationTipDismissed: false
         };
 
         this.month = 8;
