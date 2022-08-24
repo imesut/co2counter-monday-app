@@ -8,6 +8,7 @@ import {carbonNeutralizationStrategies} from "../Data/StaticLists";
 import YearBreakdowns from "./../Components/YearBreakdowns"
 import {calculateEmissionTargets, calculateAnnualTargets, eoyEmissionForecast} from "../Models/Calculators";
 import TargetGraph from "../Components/TargetGraph";
+import YearOverviewGraph from "../Components/YearOverviewGraph"
 
 export default class SetupStep2 extends React.Component {
 
@@ -80,6 +81,8 @@ export default class SetupStep2 extends React.Component {
                         context={ context } />
 
                     <TargetGraph targets={context.data.policy.breakdown} current={context.data.this_year.emission}></TargetGraph>
+
+                    <YearOverviewGraph />
 
                 {/* </Flex> */}
             </>
