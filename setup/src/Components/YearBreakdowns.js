@@ -5,15 +5,20 @@ import {calculateAnnualTargets} from "./../Models/Calculators"
 
 export default class YearBreakdowns extends React.Component {
 
-    render(){
+    constructor(props) {
+        super(props);
+    }
 
-        let context = this.props.context ? this.props.context : {};
-        let years = this.props.years ? this.props.years : 1;
-        let currentEmission = this.props.currentEmission ? this.props.currentEmission : 0;
-        let totalToBeNeutralized = this.props.totalToBeNeutralized ? this.props.totalToBeNeutralized : 0;
+    componentDidMount() {
 
-        calculateAnnualTargets(context, years, currentEmission, totalToBeNeutralized);
+        console.log(this.props)
         
+        calculateAnnualTargets(this.props.context, this.props.years, this.props.eoyEmission, this.props.totalToBeNeutralized);
+    }
+
+    render(){
+        let context = this.props.context ? this.props.context : {};
+
         let viewItems = [];
         for (let y = 0; y < context.data.policy.breakdown.length; y++) {
             
@@ -25,12 +30,15 @@ export default class YearBreakdowns extends React.Component {
                         <TextField className="rowItemSpacer" type={"number"} value={ item.target } />
                     </div>
                 </Flex>
-            )   
+            )
         }
 
-
        
-        return( viewItems );
+        return( 
+            <Flex direction={Flex.directions.COLUMN}>
+                {viewItems} 
+            </Flex>
+            );
     }
 
 }

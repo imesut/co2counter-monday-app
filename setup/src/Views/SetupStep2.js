@@ -6,7 +6,7 @@ import SplitedDivider from "../Components/SplitedDivider"
 import {carbonNeutralizationStrategies} from "../Data/StaticLists";
 
 import YearBreakdowns from "./../Components/YearBreakdowns"
-import {calculateEmissionTargets} from "../Models/Calculators";
+import {calculateEmissionTargets, calculateAnnualTargets, eoyEmissionForecast} from "../Models/Calculators";
 import TargetGraph from "../Components/TargetGraph";
 
 export default class SetupStep2 extends React.Component {
@@ -19,6 +19,7 @@ export default class SetupStep2 extends React.Component {
         return(
             <>
                 <p>Your current emission is: <b>{data.this_year.emission.toLocaleString("en-US")}</b> kg-CO2.</p>
+                <p>Untill the end of the year, you might have: <b>{eoyEmissionForecast(data.this_year.emission).toLocaleString("en-US")}</b> kg-CO2, assuming you'll progress same.</p>
                 <SplitedDivider text="↓" />
                 <p>We want to,</p>
                 <Flex direction={Flex.directions.ROW}>
@@ -70,13 +71,17 @@ export default class SetupStep2 extends React.Component {
 
                 <SplitedDivider text="So, We commit;"/>
 
-                <TargetGraph></TargetGraph>
-                
-                <YearBreakdowns
-                    totalToBeNeutralized={ data.policy.totalToBeNeutralized }
-                    years={ data.policy.years }
-                    currentEmission={ data.this_year.emission }
-                    context={ context } />
+                {/* <Flex direction={Flex.directions.ROW} justify={Flex.justify.START} > */}
+
+                    <YearBreakdowns
+                        totalToBeNeutralized={ data.policy.totalToBeNeutralized }
+                        years={ data.policy.years }
+                        eoyEmission={ eoyEmissionForecast(data.this_year.emission) }
+                        context={ context } />
+
+                    <TargetGraph targets={context.data.policy.breakdown}></TargetGraph>
+
+                {/* </Flex> */}
             </>
         )
     }
