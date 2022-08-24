@@ -79,7 +79,7 @@ export default class SetupStep2 extends React.Component {
                         eoyEmission={ eoyEmissionForecast(data.this_year.emission) }
                         context={ context } />
 
-                    <TargetGraph targets={context.data.policy.breakdown}></TargetGraph>
+                    <TargetGraph targets={context.data.policy.breakdown} current={context.data.this_year.emission}></TargetGraph>
 
                 {/* </Flex> */}
             </>
