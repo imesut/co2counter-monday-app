@@ -3,6 +3,9 @@ import "./App.css";
 // import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
 import { Heading, MultiStepIndicator, Box, Flex, Steps, Button } from "monday-ui-react-core"
+import { Dashboard, AddSmall } from "monday-ui-react-core/dist/allIcons";
+
+
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, ReferenceDot, PieChart, Pie, BarChart, Bar } from 'recharts';
 
 
@@ -97,11 +100,13 @@ class App extends React.Component {
                         <Heading type={Heading.types.h1} value="Overview" size="medium" brandFont />
                     </>
 
-                    <PieChart width={400} height={250}>
-                        <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" />
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height={250}>
+                        <PieChart width={400} height={250}>
+                            <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" />
+                        </PieChart>
+                    </ResponsiveContainer>
 
-                    
+
 
                     <div style={{ width: 300, height: 40, textAlign: "center" }}>
                         <Box padding={Box.paddings.SMALL} rounded={Box.roundeds.SMALL} border={Box.borders.DEFAULT}>50 tonnes Carbon</Box>
@@ -109,12 +114,43 @@ class App extends React.Component {
                     </div>
 
 
+                    <Box padding={Box.paddings.SMALL} rounded={Box.roundeds.SMALL} shadow={Box.shadows.SMALL} margin={Box.margins.MEDIUM}>
+                    <ResponsiveContainer width={300} height={200}>
+                        <BarChart layout="vertical" barCategoryGap={10} data={barData}>
+                            <YAxis type="category" dataKey="name" />
+                            <XAxis type="number" hide={true} />
+                            <Bar dataKey="value" fill="#8884d8" />
+                        </BarChart>
+                        </ResponsiveContainer>
 
-                    <BarChart style={{ margin: 20 }} layout="vertical" barCategoryGap={10} width={400} height={200} data={barData}>
-                        <YAxis type="category" dataKey="name" />
-                        <XAxis type="number" hide={true} />
-                        <Bar dataKey="value" fill="#8884d8" />
-                    </BarChart>
+                        <Button leftIcon={Dashboard} style={{ float: "right" }} kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL}>Add to the Dashboard</Button>
+                    </Box>
+
+                    
+
+
+
+
+
+                </Flex>
+
+                <Flex direction={Flex.directions.COLUMN}>
+
+                    <>
+                        <img src="img/"></img>
+                        <Heading type={Heading.types.h1} value="Set Targets" size="medium" brandFont />
+                    </>
+
+                    <Box padding={Box.paddings.SMALL} rounded={Box.roundeds.SMALL} shadow={Box.shadows.SMALL} margin={Box.margins.MEDIUM}>
+                        <TargetGraph targets={this.data.policy.breakdown} current={this.data.this_year.emission}></TargetGraph>
+                        <Button leftIcon={Dashboard} style={{ float: "right" }} kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL}>Add to the Dashboard</Button>
+                    </Box>
+
+
+                    Promises
+
+
+
 
 
 
@@ -124,13 +160,13 @@ class App extends React.Component {
 
 
 
-             
+
 
 
 
             </Flex>
 
-            <Button style={{ width: 150 }} kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL}>Something weird?</Button>
+            <Button style={{ width: 120 }} kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL}>Something weird?</Button>
             <p className="subtext">Check out our guide to calculate your emissions better.</p>
 
             {/* <>
