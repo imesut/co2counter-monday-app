@@ -1,8 +1,7 @@
 import React from "react";
-import { Flex, Dropdown, TextField, Heading } from "monday-ui-react-core"
+import { Flex, Dropdown, TextField, Heading, Button } from "monday-ui-react-core"
 import { Calendar } from "monday-ui-react-core/dist/icons"
 
-import SplitedDivider from "../Components/SplitedDivider"
 import { carbonNeutralizationStrategies } from "../Data/StaticLists";
 
 import YearBreakdowns from "../Components/YearBreakdowns"
@@ -66,18 +65,19 @@ export default class PromiseInput extends React.Component {
                             }
                         />
                     </div>
-                    <p className="rowItemSpacer">years.</p>
+                    <p className="rowItemSpacer">years,</p>
                 </Flex>
+                <p className="rowItemSpacer">that means, we'll</p>
 
-                <SplitedDivider text="So, We commit;" />
-
-                {/* <Flex direction={Flex.directions.ROW} justify={Flex.justify.START} > */}
 
                 <YearBreakdowns
                     totalToBeNeutralized={data.policy.totalToBeNeutralized}
                     years={data.policy.years}
                     eoyEmission={eoyEmissionForecast(data.this_year.emission)}
                     context={context} />
+
+                <Button>Save Our Promise</Button>
+
 
                 {/* <TargetGraph targets={context.data.policy.breakdown} current={context.data.this_year.emission}></TargetGraph>
 

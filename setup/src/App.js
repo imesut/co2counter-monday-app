@@ -12,23 +12,22 @@ import targetIcon from './img/target.png';
 import actionIcon from './img/action.png';
 
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, ReferenceDot, PieChart, Pie, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, ReferenceDot, PieChart, Pie, BarChart, Bar, Legend } from 'recharts';
 
 
 // Views - Steps
-import SetupStep0 from "./Views/SetupStep0"
-import SetupStep1 from "./Views/SetupStep1";
 import PromiseInput from "./Views/PromiseInput";
 
-// Data Lists
-import SetupSteps from "./Data/DynamicLists";
-
 //Models
-import changeStep from "./Models/ViewModels";
 import { calculateEmissionTargets } from "./Models/Calculators";
 import TargetGraph from "./Components/TargetGraph";
 import YearOverviewGraph from "./Components/YearOverviewGraph";
-import { Divider } from "monday-ui-react-core/dist/icons";
+import CategoryPieChart from "./Components/CategoryPieChart";
+import GraphBoxWrapper from "./Components/GraphBoxWrapper";
+import SectionTitle from "./Components/SectionTitle";
+import ActionBox from "./Components/ActionBox";
+import { contentColors } from "./Data/contentColors";
+
 
 // const monday = mondaySdk();
 
@@ -53,8 +52,8 @@ class App extends React.Component {
         this.data = {
             this_year: {
                 emission: 105000,
-                neutralized: 5000,
-                net: 100000
+                neutralized: 35000,
+                net: 70000
             },
             policy: {
                 policy_selection: -1,
@@ -75,10 +74,10 @@ class App extends React.Component {
 
     componentDidMount() {
 
-        // console.log("repeats ?")
+        console.log("repeats ?")
         // let step = this.state.setupStep;
         // this.steps[step].current.style.display = "flex";
-        // calculateEmissionTargets(this)
+        calculateEmissionTargets(this)
 
         // monday.api(`query { me { name } }`).then((res) => {
         //   this.setState({ name: res.data.me.name });
@@ -92,8 +91,9 @@ class App extends React.Component {
 
         // console.log("repeatessss?")
 
-        let pieData = [{ "name": "Group A", "value": 400 }, { "name": "Group B", "value": 300 }]
-        let barData = [{ "name": "Group A", "value": 400 }, { "name": "Group B", "value": 300 }]
+        let emissionDistribution = [{ "category": "Electricity", "Emission": 50000, "Potential Reduction": 35000 },
+        { "category": "Flights", "Emission": 20000, "Potential Reduction": 19000 },
+        { "category": "Taxi", "Emission": 35000, "Potential Reduction": 33000 }]
 
 
         return <div className="App" style={{ display: "flex", flexDirection: "column" }}>
@@ -105,48 +105,29 @@ class App extends React.Component {
                 {/* COL 1 */}
                 <Flex direction={Flex.directions.COLUMN}>
 
-                    <Flex align={Flex.align.END} direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN}>
-                        <img src={emissionIcon} style={{ maxWidth: 100, maxHeight: 80, padding: 15 }}></img>
-                        <Heading type={Heading.types.h1} value="Overview" size="medium" brandFont />
+                    <SectionTitle icon={emissionIcon} title="Overview" />
 
-                    </Flex>
-
-                    <ResponsiveContainer width="100%" height={250}>
-                        <PieChart width={400} height={250}>
-                            <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" />
-                        </PieChart>
-                    </ResponsiveContainer>
-
-
+                    <GraphBoxWrapper width={350} height={250} heading="Emission Breakdown">
+                        <CategoryPieChart width="100%" height={250} data={emissionDistribution} />
+                    </GraphBoxWrapper>
 
                     <div style={{ width: "100%", maxWidth: "30vw", textAlign: "center" }}>
-                        <Box padding={Box.paddings.SMALL} rounded={Box.roundeds.SMALL} border={Box.borders.DEFAULT}>
+                        <Box padding={Box.paddings.SMALL} rounded={Box.roundeds.MEDIUM} border={Box.borders.DEFAULT}>
                             <p>50 → 75 tonnes Carbon</p>
                             <p>Till end of the year: your pace will result in 75 tonnes.</p>
                             <p className="subtext">75 tonnes equals to <b>1000 m2</b> deforestation.</p>
-
-
                         </Box>
                     </div>
 
-
-                    <Box padding={Box.paddings.MEDIUM} rounded={Box.roundeds.SMALL} shadow={Box.shadows.SMALL} margin={Box.margins.MEDIUM}>
-                        <ResponsiveContainer width={"100%"} minWidth={250} height={150}>
-                            <BarChart layout="vertical" barCategoryGap={10} data={barData}>
-                                <YAxis type="category" dataKey="name" />
-                                <XAxis type="number" hide={true} />
-                                <Bar dataKey="value" fill="#8884d8" />
-                            </BarChart>
-                        </ResponsiveContainer>
-
-                        <Button leftIcon={Dashboard} style={{ float: "right" }} kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL}>Add to the Dashboard</Button>
-                    </Box>
-
-
-
-
-
-
+                    <GraphBoxWrapper width={350} height={100} heading="Emissions and Possible Savings">
+                        <BarChart layout="vertical" barCategoryGap={0} data={emissionDistribution}>
+                            <YAxis width={100} type="category" dataKey="category" />
+                            <XAxis type="number" hide={true} />
+                            <Bar dataKey="Emission" stackId="a" fill={contentColors["brand-blue"]} />
+                            <Bar dataKey="Potential Reduction" stackId="a" fill={contentColors.dark_blue} />
+                            <Legend />
+                        </BarChart>
+                    </GraphBoxWrapper>
 
                 </Flex>
 
@@ -154,142 +135,50 @@ class App extends React.Component {
 
                 <Flex direction={Flex.directions.COLUMN}>
 
-                    <Flex align={Flex.align.END} direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN}>
-                        <img src={targetIcon} style={{ maxWidth: 100, maxHeight: 80, padding: 15 }}></img>
-                        <Heading type={Heading.types.h1} value="Set Targets" size="medium" brandFont />
-                    </Flex>
+                    <SectionTitle icon={targetIcon} title="Set Targets" />
 
-                    <Box padding={Box.paddings.SMALL} rounded={Box.roundeds.SMALL} shadow={Box.shadows.SMALL} margin={Box.margins.MEDIUM}>
-                        <TargetGraph width={300} targets={this.data.policy.breakdown} current={this.data.this_year.emission}></TargetGraph>
-                        <Button leftIcon={Dashboard} style={{ float: "right" }} kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL}>Add to the Dashboard</Button>
-                    </Box>
-
+                    <GraphBoxWrapper width={350} height={300} heading="Carbon Zero Roadmap">
+                        <TargetGraph targets={this.data.policy.breakdown} current={this.data.this_year.emission}></TargetGraph>
+                    </GraphBoxWrapper>
 
                     <PromiseInput context={this} data={this.data} />
-
-
-
-
-
 
                 </Flex>
 
                 {/* COL3 */}
                 <Flex direction={Flex.directions.COLUMN}>
+                    <SectionTitle icon={actionIcon} title="Take Action" />
 
-                    <Flex align={Flex.align.END} direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN}>
-                        <img src={actionIcon} style={{ maxWidth: 100, maxHeight: 80, padding: 15 }}></img>
-                        <Heading type={Heading.types.h1} value="Take Action" size="medium" brandFont />
-                    </Flex>
-
-                    <div className="actionBoxesContainer" >
-
-                        <Box rounded={Box.roundeds.SMALL} border={Box.borders.DEFAULT}
-                            padding={Box.paddings.XS} margin={Box.margins.MEDIUM}>
-                            <Flex align={Flex.align.CENTER} direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN}>
-                                <Heading type={Heading.types.h2} value="Avoid" size="small" style={{ float: "left" }}></Heading>
-                                <Button style={{ float: "right" }} size={Button.sizes.XS} leftIcon={Search}>Find Something to Avoid</Button>
-                            </Flex>
-                            <p>Where appropriate, avoid and cut the emission sources.</p>
-                        </Box>
-
-
-                        <Box rounded={Box.roundeds.SMALL} border={Box.borders.DEFAULT}
-                            padding={Box.paddings.XS} margin={Box.margins.MEDIUM}>
-                            <Flex align={Flex.align.CENTER} direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN}>
-                                <Heading type={Heading.types.h2} value="Reduce" size="small" style={{ float: "left" }}></Heading>
-                                <Button style={{ float: "right" }} size={Button.sizes.XS} leftIcon={Search}>Overview to Reduce</Button>
-                            </Flex>
-                            <p>If you cannot avoid it, how you can decrease your consumption, to reduce the emissions?</p>
-                        </Box>
-
-                        <Box rounded={Box.roundeds.SMALL} border={Box.borders.DEFAULT}
-                            padding={Box.paddings.XS} margin={Box.margins.MEDIUM}>
-                            <Flex align={Flex.align.CENTER} direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN}>
-                                <Heading type={Heading.types.h2} value="Offset" size="small" style={{ float: "left" }}></Heading>
-                                <Button style={{ float: "right" }} size={Button.sizes.XS} leftIcon={AddSmall}>Add an Offset Record</Button>
-                            </Flex>
-                            <p>Where appropriate, avoid and cut the emission sources.</p>
-                        </Box>
-
-                    </div>
-
-
-                    <Box padding={Box.paddings.SMALL} rounded={Box.roundeds.SMALL} shadow={Box.shadows.SMALL} margin={Box.margins.MEDIUM}>
+                    <GraphBoxWrapper width={350} height={180} heading="Year Status">
                         <YearOverviewGraph
                             currentEmission={this.data.this_year.emission}
                             currentNeutralized={this.data.this_year.neutralized}
                             limitEmission={eoyEmissionForecast(this.data.this_year.emission)}
                             netEmission={this.data.this_year.net}
                         />
-                        <Button leftIcon={Dashboard} style={{ float: "right" }} kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL}>Add to the Dashboard</Button>
-                    </Box>
+                    </GraphBoxWrapper>
 
+                    <div className="actionBoxesContainer" >
 
+                        <ActionBox heading="Avoid" actionName="Find Something to Avoid"
+                            description="Where appropriate, avoid and cut the emission sources." />
 
+                        <ActionBox heading="Reduce" actionName="Overview to Reduce"
+                            description="If you cannot avoid it, how you can decrease your consumption, to reduce the emissions?" />
 
+                        <ActionBox heading="Offset" actionName="Add an Offset Record"
+                            description="When you cannot avoid or reduce, you can contribute to carbon negative projects worldwide, to make an impact in total." />
 
+                    </div>
 
 
 
                 </Flex>
-
-
-
-
-
-
-
-
 
             </Flex>
 
             <Button style={{ width: 120 }} kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL}>Something weird?</Button>
             <p className="subtext">Check out our guide to calculate your emissions better.</p>
-
-            {/* <>
-            <Flex direction={Flex.directions.COLUMN}>
-                <Heading type={Heading.types.h1} value="Setup Carbon Policy Tracker" />                
-                <MultiStepIndicator
-                    className="monday-storybook-multiStepIndicator_big-size"
-                    steps={SetupSteps(step)}
-                    textPlacement={MultiStepIndicator.textPlacements.VERTICAL}
-                    onClick={ (step) => {changeStep(this, step - 1)} } />
-            </Flex>
-            
-            <Box
-                className="boxWrapper"
-                shadow={Box.shadows.MEDIUM}
-                border={Box.borders.DEFAULT}
-                rounded={Box.roundeds.MEDIUM}
-                backgroundColor={Box.backgroundColors.GREY_BACKGROUND_COLOR}>
-                
-                
-                <Flex ref={this.step0} style={{display: "none"}} justify={Flex.justify.SPACE_AROUND}>
-                    <SetupStep0 />
-                </Flex>
-
-                
-                <Flex ref={this.step1} style={{display: "none"}}
-                    direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
-                    <SetupStep1 />
-                </Flex>
-
-                
-                <Flex ref={this.step2} style={{display: "none"}}
-                    direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
-                    <SetupStep2 context={this} data={this.data} />            
-                </Flex>
-
-            </Box>
-
-            <div style={{width: "inherit"}} >
-                <Flex direction={Flex.directions.COLUMN}>
-                    <Steps steps={[<div />, <div />, <div />]} activeStepIndex={step}
-                    onChangeActiveStep={ (event, stepNo) => {changeStep(this, stepNo)} }/>
-                </Flex>
-            </div>
-            </> */}
 
         </div>
     }

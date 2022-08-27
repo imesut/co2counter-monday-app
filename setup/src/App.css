@@ -43,7 +43,7 @@ body {
 
 .tipSeenInBox{}
 
-.subtext{
+.subtext, text{
   margin: 0 8px 8px 8px;
   size: 14px;
   color: #676879;

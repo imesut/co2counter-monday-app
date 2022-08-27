@@ -15,8 +15,8 @@ export default class TargetGraph extends React.Component {
             <ResponsiveContainer width={this.props.width ? this.props.width : 400} height={this.props.height ? this.props.height : 300}>
                 <LineChart width={this.props.width ? this.props.width - 100 : 300} height={200} data={targets} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>
                     <CartesianGrid strokeDasharray="5 3" />
-                    <XAxis dataKey="year" tickLine={false}/>
-                    <YAxis domain={ [ "dataMin", dataMax => Math.max(dataMax, this.props.current) * 1,1 ] } />
+                    <XAxis dataKey="year"/>
+                    <YAxis label={{ value: "kg-CO2", angle: -90, position: "insideLeft" }} width={80} domain={ [ dataMin => Math.min(0, dataMin), dataMax => Math.max(dataMax, this.props.current) * 110/100 ] } />
                     <ReferenceLine y={0} stroke="black" />
                     {/* <ReferenceLine stroke="green" strokeDasharray="3 3" segment={[{ x: '1', y: 100000 }, { x: '3', y: 0 }]} /> */}
                     <ReferenceDot x={1} y={this.props.current} r={6} fill="black" />
