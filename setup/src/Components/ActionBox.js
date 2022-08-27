@@ -8,12 +8,13 @@ export default class ActionBox extends React.Component {
         let heading = this.props.heading;
         let actionName = this.props.actionName;
         let description = this.props.description;
+        let icon = this.props.icon;
 
         return (
             <Box rounded={Box.roundeds.MEDIUM} border={Box.borders.DEFAULT} padding={Box.paddings.XS} margin={Box.margins.MEDIUM}>
                 <Flex align={Flex.align.CENTER} direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN}>
                     <Heading type={Heading.types.h2} value={heading} size="small" style={{ float: "left" }}></Heading>
-                    <Button style={{ float: "right" }} size={Button.sizes.XS} leftIcon={Search}>{actionName}</Button>
+                    <Button style={{ float: "right" }} size={Button.sizes.XS} leftIcon={icon ? icon : Search}>{actionName}</Button>
                 </Flex>
                 <p>{description}</p>
             </Box>

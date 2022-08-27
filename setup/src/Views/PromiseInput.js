@@ -20,9 +20,7 @@ export default class PromiseInput extends React.Component {
 
             <Flex direction={Flex.directions.COLUMN} style={{ width: 400 }}>
 
-                <Heading type={Heading.types.h2} value="Promises" size="medium" brandFont />
-                <p className="subtext">Climate action is more than the targets, it's our common effort to make the world better.</p>
-
+                <Heading type={Heading.types.h2} value="Promise" size="medium" brandFont />
                 <p>We promise to,</p>
                 <div className="rowItemSpacer" style={{ minWidth: '300px' }}>
                     <Dropdown

@@ -52,8 +52,8 @@ body {
 }
 
 .actionBoxesContainer{
-  max-width: 33vw;
   font-size: 0.85rem;
+  max-width: 30vw;
 }
 
 .actionBoxesContainer div{

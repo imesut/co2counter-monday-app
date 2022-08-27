@@ -2,6 +2,7 @@
   "name": "monday-integration-quickstart-app",
   "version": "0.0.1",
   "private": true,
+  "homepage": "/",
   "scripts": {
     "start": "npm run stop && concurrently \"npm run server\" \"npm run expose\"",
     "build": "react-scripts build",

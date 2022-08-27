@@ -1,7 +1,7 @@
 import React from "react";
 // import { PureComponent } from "react";
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, ReferenceDot } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, ReferenceDot, Area } from 'recharts';
 
 
 export default class TargetGraph extends React.Component {
@@ -21,6 +21,7 @@ export default class TargetGraph extends React.Component {
                     {/* <ReferenceLine stroke="green" strokeDasharray="3 3" segment={[{ x: '1', y: 100000 }, { x: '3', y: 0 }]} /> */}
                     <ReferenceDot x={1} y={this.props.current} r={6} fill="black" />
                     <Line type="linear" strokeWidth={4} dataKey="target" stroke="#0073ea" />
+                    <Area dataKey="Emission" stroke="#8884d8" fill="#8884d8" />
                 </LineChart>
             </ResponsiveContainer>
          );
