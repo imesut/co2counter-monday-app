@@ -81,9 +81,7 @@ class App extends React.Component {
     return <div className="App" style={{ display: "flex", flexDirection: "column" }}>
 
             <Flex direction={Flex.directions.COLUMN}>
-                <Heading type={Heading.types.h1} value="Welcome to Carbon Tracker" />
-                <p>Set up your carbon policy by following our pre-built schema or by customizing for your own needs.</p>
-                
+                <Heading type={Heading.types.h1} value="Setup Carbon Policy Tracker" />                
                 <MultiStepIndicator
                     className="monday-storybook-multiStepIndicator_big-size"
                     steps={SetupSteps(step)}
@@ -98,18 +96,18 @@ class App extends React.Component {
                 rounded={Box.roundeds.MEDIUM}
                 backgroundColor={Box.backgroundColors.GREY_BACKGROUND_COLOR}>
                 
-                {/* STEP 0 */}
+                
                 <Flex ref={this.step0} style={{display: "none"}} justify={Flex.justify.SPACE_AROUND}>
                     <SetupStep0 />
                 </Flex>
 
-                {/* STEP 1 */}
+                
                 <Flex ref={this.step1} style={{display: "none"}}
                     direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
                     <SetupStep1 />
                 </Flex>
 
-                {/* STEP 2 */}
+                
                 <Flex ref={this.step2} style={{display: "none"}}
                     direction={Flex.directions.COLUMN} justify={Flex.justify.SPACE_AROUND}>
                     <SetupStep2 context={this} data={this.data} />            

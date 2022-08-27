@@ -11,8 +11,6 @@ export default class TargetGraph extends React.Component {
         // TODO: n-1 problem
         let targets = this.props.targets ? this.props.targets : [];
        
-        console.log(targets);
-
         return(
             <ResponsiveContainer width={400} height={300}>
                 <LineChart width={300} height={200} data={targets} margin={{ top: 20, right: 20, left: 20, bottom: 20 }}>

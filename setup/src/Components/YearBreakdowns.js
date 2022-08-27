@@ -8,18 +8,21 @@ export default class YearBreakdowns extends React.Component {
     constructor(props) {
         super(props);
 
-        this.tipseen = <Tipseen position="right" isCloseButtonHidden={true} content={
-                    <TipseenContent isSubmitHidden={true} isDismissHidden={false} title="Feel Free to Set Your Pace" 
-                        onDismiss={(e) => {
-                            console.log(e);
-                            let context = this.props.context;
-                            context.setState({ breakdownCustomizationTipDismissed : true });
-                        }}>
-                        Linear reduction is a simple method for clarity.
-                        And, you can set custom year to year levels for your business. 
-                    </TipseenContent> }>
-                <div className="monday-style-story-tipseen_container" />
-            </Tipseen>
+        this.tipseen = <div className="tipSeenInBox">
+                <Tipseen position="right" isCloseButtonHidden={true} content={
+                        <TipseenContent isSubmitHidden={true} isDismissHidden={false} title="Feel Free to Set Your Pace" 
+                            onDismiss={(e) => {
+                                console.log(e);
+                                let context = this.props.context;
+                                context.setState({ breakdownCustomizationTipDismissed : true });
+                            }}
+                            >
+                            Linear reduction is a simple method for clarity.
+                            And, you can set custom year to year levels for your business. 
+                        </TipseenContent> }>
+                    <div className="monday-style-story-tipseen_container" />
+                </Tipseen>
+            </div>
     }
 
     componentDidMount() {

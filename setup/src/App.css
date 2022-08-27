@@ -13,7 +13,6 @@ body {
 }
 
 .boxWrapper {
-  min-height: 200px;
   margin: 24px;
   margin-bottom: 48px;
   padding: 24px;
@@ -41,3 +40,5 @@ body {
 .whiteBg{
   background-color: white;
 }
+
+.tipSeenInBox{}
