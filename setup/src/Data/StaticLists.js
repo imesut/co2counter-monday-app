@@ -19,7 +19,7 @@ const carbonNeutralizationStrategies = [
         value: 0
     },
     {
-        label: "✅ Carbon Negative with value:",
+        label: "✅ be Carbon Negative with value:",
         value: 1
     },
     {
