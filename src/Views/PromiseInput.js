@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Flex, Dropdown, TextField, Heading, Button } from "monday-ui-react-core"
 import { Calendar } from "monday-ui-react-core/dist/icons"
 
@@ -8,20 +8,31 @@ import YearBreakdowns from "../Components/YearBreakdowns"
 import { calculateEmissionTargets, calculateAnnualTargets, eoyEmissionForecast } from "../Models/Calculators";
 import TargetGraph from "../Components/TargetGraph";
 import YearOverviewGraph from "../Components/YearOverviewGraph"
+import { setStrategyDataToMonday } from "../Models/MondayApiModel";
+import { Check } from "monday-ui-react-core/dist/allIcons";
+
+
 
 export default class PromiseInput extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            savedWithSuccess: false
+        };
+    }
 
     render() {
 
         let context = this.props.context ? this.props.context : {};
         let data = context.data;
 
+
         return (
 
             <Flex direction={Flex.directions.COLUMN} style={{ width: 400 }}>
 
-                <Heading type={Heading.types.h2} value="Promise" size="medium" brandFont />
-                <p>We promise to,</p>
+                <Heading type={Heading.types.h1} value="We promise to," size="medium" brandFont />
                 <div className="rowItemSpacer" style={{ minWidth: '300px' }}>
                     <Dropdown
                         // ref={context.policySelectorRef}
@@ -74,9 +85,23 @@ export default class PromiseInput extends React.Component {
                     eoyEmission={eoyEmissionForecast(data.this_year.emission)}
                     context={context} />
 
-                <Button>Save Our Promise</Button>
-                
-            </Flex>
+                <Button success={this.state.savedWithSuccess} successIcon={Check} successText="Promise Saved"
+                    onClick={(e) => {
+                        // Local env:
+                        // this.setState({ savedWithSuccess: true })
+                        console.log("data to save", data)
+                        setStrategyDataToMonday(data).then((isSuccess) => {
+                            this.setState({ savedWithSuccess:  isSuccess})
+                        })
+                        
+                    }
+                    }>
+                    Save Promises
+                </Button >
+
+
+
+            </Flex >
         )
     }
 }

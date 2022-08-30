@@ -9,7 +9,7 @@ export default class SectionTitle extends React.Component {
 
         return (
             <Flex align={Flex.align.END} direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN}>
-                <img src={icon} style={{ maxWidth: 100, maxHeight: 80, padding: 15 }}></img>
+                <img src={icon} style={{ maxWidth: 80, maxHeight: 60, padding: 15 }}></img>
                 <Heading type={Heading.types.h1} value={title} size="medium" brandFont />
             </Flex>
         );

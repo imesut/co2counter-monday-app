@@ -15,10 +15,10 @@ var expenseTypeColNum = 0
 var co2gbpColNum = 0
 var offsetColNum = 0
 
-export function calculateEmissions(){
+export function calculateEmissionsFromExpenses() {
 
     return new Promise((resolve, reject) => {
-        
+
         let boardData = retrieveBoardData()
 
         boardData.then((resp) => {
@@ -41,11 +41,30 @@ export function calculateEmissions(){
                 "totalEmissions": totalEmissions,
                 "offsetTotal": offsetTotal
             }
-            
+
             resolve(objects);
         }
         )
     })
+}
+
+
+export function convertEmissionTypesToCategory(typeObjectArray) {
+    var categories = []
+    typeObjectArray.forEach(typeObject => {
+        categories.push(
+            {
+                "category": typeObject.type,
+                "Emission": typeObject.value,
+                "Potential Reduction": typeObject.value / 2
+            })
+    });
+    return categories
+
+    // { "category": "Electricity", "Emission": 50000, "Potential Reduction": 35000 },
+    // { "category": "Flights", "Emission": 20000, "Potential Reduction": 19000 },
+    // { "category": "Taxi", "Emission": 35000, "Potential Reduction": 33000 }
+
 }
 
 let defineColumns = (firstItem) => {

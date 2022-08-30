@@ -23,7 +23,7 @@ export function calculateAnnualTargets(context, years, eoyEmission, totalToBeNeu
     for (let y = 0; y < years; y++) {
         breakdowns.push({
             year: y+1,
-            target: eoyEmission - perYearValue * (y + 1)
+            target: Math.round(eoyEmission - perYearValue * (y + 1))
         })
     }
 

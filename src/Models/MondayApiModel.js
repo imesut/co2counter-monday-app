@@ -11,6 +11,7 @@ export function retrieveBoardData() {
             let boardId = res.data.boardIds[0];
             console.log("boardId", boardId);
             carbonBoardId = boardId;
+            let theme = res.data.theme //"dark" or "light"
             
             monday.api(`query {
                     boards (ids: ` + boardId + `) {
@@ -31,19 +32,36 @@ export function retrieveBoardData() {
 }
 
 
-export function getStrategyData() {
-    monday.storage.instance.getItem(strategyKey).then(res => {
-        console.log("carbon-key", res.data.value);
-        let object = JSON.parse(res.data.value);
-        return object;
-    });
+export function getMondayKeyVal(key){
+    return new Promise((resolve, reject) => {
+        monday.storage.instance.getItem(key).then(res => {
+            // console.log(key, res.data.value);
+            let object = JSON.parse(res.data.value);
+            resolve(object);
+        });
+    })
 }
 
-export function setStrategyData(object) {
-    let stringValue = JSON.stringify(object);
-    monday.storage.instance.setItem(strategyKey, stringValue).then(res => {
-        console.log("carbon-key", res.data.value);
+export function setMondayKeyVal(key, value){
+    let stringValue = JSON.stringify(value);
+    return new Promise((resolve, reject) => {
+        monday.storage.instance.setItem(key, stringValue).then(res => {
+            // console.log(key, res.data.value);
+            // console.log(res)
+            monday.storage.instance.setItem("lastUpdatedTimestamp", JSON.stringify(Date.now())).then(tmstmp => {
+                resolve(res.data.success)
+            })
+        });
     })
+    
+}
+
+export function getStrategyDataFromMonday() {
+    return getMondayKeyVal(strategyKey);
+}
+
+export function setStrategyDataToMonday(object) {
+    return setMondayKeyVal(strategyKey, object);
 }
 
 

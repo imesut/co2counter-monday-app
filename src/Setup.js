@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 // import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
-import { Box, Flex, Button } from "monday-ui-react-core"
+import { Box, Flex, Button, Link } from "monday-ui-react-core"
 import { Retry } from "monday-ui-react-core/dist/allIcons";
 import { eoyEmissionForecast } from "./Models/Calculators";
 import emissionIcon from './img/emission.png';
@@ -48,23 +48,31 @@ class Setup extends React.Component {
 
         let baseContext = this.props.baseContext;
 
-        let emissionDistribution = [{ "category": "Electricity", "Emission": 50000, "Potential Reduction": 35000 },
-        { "category": "Flights", "Emission": 20000, "Potential Reduction": 19000 },
-        { "category": "Taxi", "Emission": 35000, "Potential Reduction": 33000 }]
+        let emissionDistribution = this.props.baseContext.data.this_year.emissionDistribution;
+        let emissionTotal = this.props.baseContext.data.this_year.emission;
+
+        let timestamp = this.props.baseContext.state.lastUpdatedTimestamp
+        let dateDisplayOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
+        let date = new Date(timestamp);
+        let dateToDisplay = date.toLocaleDateString("en-GB", dateDisplayOptions)
+        let asMinutes = Math.round((Date.now() - timestamp) / 1000 / 60)
+        // console.log(emissionDistribution)
 
 
         return <div className="App" style={{ display: "flex", flexDirection: "column" }}>
 
-            <Flex direction={Flex.directions.ROW} justify={Flex.justify.END} style={{width: "100%"}}>
-                <p style={{margin: 0, padding: 0, fontSize: "0.75rem"}} className="subtext">Last Update: 22.00.0000</p>
+            <Flex direction={Flex.directions.ROW} justify={Flex.justify.END} >
+                <p className="subtext" style={{ margin: 0, padding: 0, fontSize: "0.75rem", textAlign: "right" }}>
+                    Last Update: {dateToDisplay}<br></br>{asMinutes + " minutes ago"}
+                </p>
                 <Button kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL} leftIcon={Retry}></Button>
             </Flex>
 
-            <Flex direction={Flex.directions.ROW} justify={Flex.justify.SPACE_AROUND} align={Flex.align.START}>
+            <Flex direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN} align={Flex.align.START}>
 
 
                 {/* COL 1 */}
-                <Flex direction={Flex.directions.COLUMN} style={{maxWidth: "calc(32vw -24*3)"}}>
+                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "calc(32vw -24*3)" }}>
 
                     <SectionTitle icon={emissionIcon} title="Overview" />
 
@@ -74,13 +82,14 @@ class Setup extends React.Component {
 
                     <div style={{ width: "100%", maxWidth: "30vw", textAlign: "center" }}>
                         <Box padding={Box.paddings.SMALL} rounded={Box.roundeds.MEDIUM} border={Box.borders.DEFAULT}>
-                            <p>50 → 75 tonnes Carbon</p>
-                            <p>Till end of the year: your pace will result in 75 tonnes.</p>
-                            <p className="subtext">75 tonnes equals to <b>1000 m2</b> deforestation.</p>
+
+                            <p>Your Current: {Number((emissionTotal / 1000).toFixed(2))} → {Number((eoyEmissionForecast(emissionTotal) / 1000).toFixed(2))} tonnes Emission</p>
+                            <p>Till end of the year: your pace will result in {Number((eoyEmissionForecast(emissionTotal) / 1000).toFixed(2))} tonnes.</p>
+                            <p className="subtext">{Number((eoyEmissionForecast(emissionTotal) / 1000).toFixed(2))} tonnes causes to melt <b>{Number((eoyEmissionForecast(emissionTotal) / 1000 * 3).toFixed(2))} m3</b> arctic ice. <a href="https://www.airclim.org/acidnews/1-tonne-co2-melts-3-m2-arctic-ice">🔗</a></p>
                         </Box>
                     </div>
 
-                    <GraphBoxWrapper width={350} height={100} heading="Emissions and Possible Savings">
+                    <GraphBoxWrapper width={350} height={25 + emissionDistribution.length * 30} heading="Emissions and Possible Savings">
                         <BarChart layout="vertical" barCategoryGap={0} data={emissionDistribution}>
                             <YAxis width={100} type="category" dataKey="category" />
                             <XAxis type="number" hide={true} />
@@ -94,7 +103,7 @@ class Setup extends React.Component {
 
                 {/* COL 2 */}
 
-                <Flex direction={Flex.directions.COLUMN} style={{maxWidth: "calc(32vw -24*3)"}}>
+                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "calc(32vw -24*3)" }}>
 
                     <SectionTitle icon={targetIcon} title="Set Targets" />
 
@@ -107,7 +116,7 @@ class Setup extends React.Component {
                 </Flex>
 
                 {/* COL3 */}
-                <Flex direction={Flex.directions.COLUMN} style={{maxWidth: "calc(32vw -24*3)"}}>
+                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "calc(32vw - 24*3)" }}>
                     <SectionTitle icon={actionIcon} title="Take Action" />
 
                     <GraphBoxWrapper width={300} height={150} heading="Year Status">
