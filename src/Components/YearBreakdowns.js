@@ -1,6 +1,7 @@
 import React from "react";
 import { Flex, TextField, Tipseen, TipseenContent } from "monday-ui-react-core"
 import { calculateAnnualTargets } from "./../Models/Calculators"
+import { setMondayKeyVal } from "../Models/MondayApiModel";
 
 export default class YearBreakdowns extends React.Component {
 
@@ -11,9 +12,9 @@ export default class YearBreakdowns extends React.Component {
             <Tipseen position="right" isCloseButtonHidden={true} content={
                 <TipseenContent isSubmitHidden={true} isDismissHidden={false} title="Feel Free to Set Your Pace"
                     onDismiss={(e) => {
-                        console.log(e);
                         let baseContext = this.props.baseContext;
-                        baseContext.setState({ breakdownCustomizationTipDismissed: true });
+                        setMondayKeyVal("breakdownCustomizationTipDismissed", true)
+                        baseContext.setState({ breakdownCustomizationTipDismissed: true })
                     }}>
                     Linear reduction is a simple method for clarity.
                     And, you can set custom year to year levels for your business.
@@ -39,7 +40,7 @@ export default class YearBreakdowns extends React.Component {
                     <Flex direction={Flex.directions.ROW}>
                         <p className="noWrap rowItemSpacer">Not exceed</p>
                         <div className="whiteBg">
-                            
+
                             {/*
                                 Monday SDK should be updated to support numeric TextField.
                                 Currently it's working but giving an error message.
@@ -54,7 +55,7 @@ export default class YearBreakdowns extends React.Component {
 
                             {/* Insert tipseen to the first input item */}
                             {(y === 0 & !baseContext.state.breakdownCustomizationTipDismissed) ? this.tipseen : ""}
-                            
+
                         </div>
                         <p className="noWrap rowItemSpacer">kg-CO2</p>
                     </Flex>
