@@ -63,7 +63,9 @@ class Setup extends React.Component {
                     Last Update: {dateToDisplay}<br></br>{asMinutes + " minutes ago"}
                 </p>
                 <Button kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL} leftIcon={Retry} onClick={
-                    initFromMonday(baseContext, true)
+                    (e) => {
+                        initFromMonday(baseContext, true)
+                    }
                 }></Button>
             </Flex>
 
@@ -110,7 +112,7 @@ class Setup extends React.Component {
                         <TargetGraph targets={baseContext.data.policy.breakdown} current={baseContext.data.this_year.emission}></TargetGraph>
                     </GraphBoxWrapper>
 
-                    <PromiseInput baseContext={baseContext} data={baseContext.data} />
+                    <PromiseInput baseContext={baseContext} />
 
                 </Flex>
 

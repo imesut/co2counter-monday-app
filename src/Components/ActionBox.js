@@ -17,7 +17,7 @@ export default class ActionBox extends React.Component {
                     <Heading type={Heading.types.h2} value={heading} size="small" style={{ float: "left" }}></Heading>
                     <Button style={{ float: "right" }} size={Button.sizes.XS} leftIcon={icon ? icon : Search} onClick={
                         (e) => {
-                            window.open(document.location.origin + url, '_blank')
+                            // window.open(document.location.origin + url, '_blank')
                         }
                     }>{actionName}</Button>
                 </Flex>

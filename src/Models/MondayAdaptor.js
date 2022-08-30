@@ -1,7 +1,6 @@
 import { calculateEmissionsFromExpenses, convertEmissionTypesToCategory } from "./MondayDataModel"
 import { getMondayKeyVal, getStrategyDataFromMonday, setStrategyDataToMonday } from "./MondayApiModel"
 import { eoyEmissionForecast } from "./Calculators";
-import { calculateAnnualTargets } from "./Calculators"
 
 
 let shouldCalculateAgain = (baseContext) => {

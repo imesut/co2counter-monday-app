@@ -2,11 +2,6 @@ import React from "react";
 import "./App.css";
 import "monday-ui-react-core/dist/main.css"
 import Setup from "./Setup"
-import YearOverviewWidget from "./YearOverviewWidget";
-import { calculateEmissionsFromExpenses, convertEmissionTypesToCategory } from "./Models/MondayDataModel"
-import { getMondayKeyVal, getStrategyDataFromMonday, setStrategyDataToMonday } from "./Models/MondayApiModel"
-import { eoyEmissionForecast } from "./Models/Calculators";
-import { calculateAnnualTargets } from "./Models/Calculators"
 import "./Models/MondayAdaptor"
 import { initFromMonday } from "./Models/MondayAdaptor";
 
@@ -56,6 +51,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        console.log("do you call this?")
         initFromMonday(this)
     }
 

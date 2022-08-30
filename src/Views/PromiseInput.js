@@ -1,13 +1,11 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { Flex, Dropdown, TextField, Heading, Button } from "monday-ui-react-core"
 import { Calendar } from "monday-ui-react-core/dist/icons"
 
 import { carbonNeutralizationStrategies } from "../Data/StaticLists";
 
 import YearBreakdowns from "../Components/YearBreakdowns"
-import { calculateEmissionTargets, calculateAnnualTargets, eoyEmissionForecast } from "../Models/Calculators";
-import TargetGraph from "../Components/TargetGraph";
-import YearOverviewGraph from "../Components/YearOverviewGraph"
+import { calculateEmissionTargets, eoyEmissionForecast } from "../Models/Calculators";
 import { setStrategyDataToMonday } from "../Models/MondayApiModel";
 import { Check } from "monday-ui-react-core/dist/allIcons";
 
@@ -24,8 +22,8 @@ export default class PromiseInput extends React.Component {
 
     render() {
 
-        let baseContext = this.props.baseContext ? this.props.baseContext : {};
-        let data = baseContext.data;
+        let baseContext = this.props.baseContext
+        let data = baseContext.data
 
 
         return (

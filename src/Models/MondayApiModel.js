@@ -2,16 +2,13 @@ import mondaySdk from "monday-sdk-js";
 const monday = mondaySdk();
 
 const strategyKey = "carbon-key"
-var carbonBoardId = 0
-
 
 export function retrieveBoardData(baseContext) {
     return new Promise((resolve, reject) => {
         monday.listen("context", res => {
             let boardId = res.data.boardIds[0];
             // console.log("boardId", boardId);
-            carbonBoardId = boardId;
-            let theme = res.data.theme //"dark" or "light"
+            // let theme = res.data.theme //"dark" or "light"
 
             monday.api(`query {
                     boards (ids: ` + boardId + `) {
@@ -61,6 +58,7 @@ export function retrieveBoardData(baseContext) {
 
 
 export function getMondayKeyVal(key) {
+    console.log("getMondayKeyVal")
     return new Promise((resolve, reject) => {
         monday.storage.instance.getItem(key).then(res => {
             // console.log(key, res.data.value);
@@ -71,6 +69,7 @@ export function getMondayKeyVal(key) {
 }
 
 export function setMondayKeyVal(key, value) {
+    console.log("setMondayKeyVal")
     let stringValue = JSON.stringify(value);
     return new Promise((resolve, reject) => {
         monday.storage.instance.setItem(key, stringValue).then(res => {
