@@ -30,7 +30,7 @@ export const initFromMonday = (baseContext, forceReload) => {
     getStrategyDataFromMonday().then((storedStrategyOnMonday) => {
         // Calculate if never calculated or deleted
         if (storedStrategyOnMonday === null) {
-            shouldCalculateAgain(baseContext).then(() => baseContext.setState({ lastUpdatedTimestamp: lastUpdatedTimestamp }))
+            shouldCalculateAgain(baseContext).then(() => baseContext.setState({ }))
         } else {
             // last updated time 15 mins before
             getMondayKeyVal("lastUpdatedTimestamp").then((timestamp) => {
