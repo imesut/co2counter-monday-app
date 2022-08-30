@@ -3,7 +3,7 @@ import "monday-ui-react-core/dist/main.css"
 // import Setup from "./Setup"
 import "./Models/MondayAdaptor"
 import { initFromMonday } from "./Models/MondayAdaptor";
-import FactsWidget from "./Widgets/FactsWidget";
+import YearOverviewWidget from "./Widgets/YearOverviewWidget";
 
 class App extends React.Component {
     constructor(props) {
@@ -21,6 +21,7 @@ class App extends React.Component {
         this.month = (new Date()).getMonth() + 1;
 
         this.data = {
+            boardId: -1,
             this_year: {
                 emission: 105000,
                 emissionLimit: 15750,
@@ -51,17 +52,15 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        // initFromMonday(this)
+        initFromMonday(this)
     }
 
     render() {
 
         return (
             <>
-            
                 {/* <Setup baseContext={this} /> */}
-                <FactsWidget />
-                {/* <YearOverviewWidget context={this} /> */}
+                <YearOverviewWidget baseContext={this} />
             </>
         )
     }
