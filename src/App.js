@@ -1,24 +1,19 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import "./App.css";
-// import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
 import Setup from "./Setup"
-import Widget from "./Widget";
-
-// const monday = mondaySdk();
+import YearOverviewWidget from "./YearOverviewWidget";
+import { calculateEmissions } from "./Models/MondayDataModel"
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             settings: {},
-            setupStep: 2,
             breakdownCustomizationTipDismissed: false
         };
 
-        this.month = 8;
+        this.month = (new Date()).getMonth() + 1;
 
         this.data = {
             this_year: {
@@ -42,28 +37,30 @@ class App extends React.Component {
         }
     }
 
-
     componentDidMount() {
-        // monday.api(`query { me { name } }`).then((res) => {
-        //   this.setState({ name: res.data.me.name });
-        //   console.log(res.data.me.name)
-        // });
+        // let objects = {
+        //     "expensesByTypes": expensesByTypes,
+        //     "calculator": calculator,
+        //     "emissionsByTypes": emissionsByTypes,
+        //     "totalEmissions": totalEmissions,
+        //     "offsetTotal": offsetTotal
+        // }
+        calculateEmissions().then((obj) => {
+            let emission = obj.totalEmissions
+            let offset = obj.offsetTotal
+            this.data.this_year.emission = emission
+            this.data.this_year.neutralized = offset
+            this.data.this_year.net = (emission - offset)
+            this.setState({});
+        })
     }
 
-
     render() {
-        // let step = this.state.setupStep;
-
-        // console.log("repeatessss?")
-
         return (
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Setup baseContext={this} />} />
-                    <Route path="widget" element={<Widget />} />
-                </Routes>
-            </BrowserRouter>
-
+            <>
+                <Setup baseContext={this} />
+                {/* <YearOverviewWidget context={this} /> */}
+            </>
         )
     }
 }

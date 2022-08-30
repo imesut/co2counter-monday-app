@@ -1,18 +1,10 @@
 import React from "react";
-// import { PureComponent } from "react";
-
 import { BarChart, Bar, XAxis, YAxis, ReferenceLine, LabelList, Cell } from 'recharts';
 import { contentColors } from "../Data/contentColors";
-import { Heading } from "monday-ui-react-core"
-
 
 export default class YearOverviewGraph extends React.Component {
 
     render() {
-
-        // TODO: n-1 problem
-        let targets = this.props.targets ? this.props.targets : [];
-
         let width = this.props.width;
         let height = this.props.height;
 

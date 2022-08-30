@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PieChart, Pie, ResponsiveContainer } from 'recharts';
+import { ResponsiveContainer } from 'recharts';
 import { Box, Button, Heading } from "monday-ui-react-core"
 import { Dashboard } from "monday-ui-react-core/dist/allIcons";
 

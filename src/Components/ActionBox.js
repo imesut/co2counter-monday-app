@@ -1,6 +1,6 @@
 import React from "react";
 import { Heading, Flex, Box, Button } from "monday-ui-react-core"
-import { Dashboard, AddSmall, Search } from "monday-ui-react-core/dist/allIcons"
+import { Search } from "monday-ui-react-core/dist/allIcons"
 
 export default class ActionBox extends React.Component {
 

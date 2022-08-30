@@ -75,24 +75,7 @@ export default class PromiseInput extends React.Component {
                     context={context} />
 
                 <Button>Save Our Promise</Button>
-
-
-                {/* <TargetGraph targets={context.data.policy.breakdown} current={context.data.this_year.emission}></TargetGraph>
-
-                    <YearOverviewGraph
-                        currentEmission={context.data.this_year.emission}
-                        currentNeutralized={context.data.this_year.neutralized}
-                        limitEmission={eoyEmissionForecast(context.data.this_year.emission)}
-                        netEmission={context.data.this_year.net}  /> */}
-
-
-                {/* this_year: {
-                        emission: 105000,
-                        neutralized: 0,
-                        net: 105000
-                    } */}
-
-                {/* </Flex> */}
+                
             </Flex>
         )
     }

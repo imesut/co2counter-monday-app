@@ -1,5 +1,4 @@
-import React, { createContext } from "react";
-
+import React from "react";
 import { Flex, TextField, Tipseen, TipseenContent } from "monday-ui-react-core"
 import { calculateAnnualTargets } from "./../Models/Calculators"
 
@@ -15,8 +14,7 @@ export default class YearBreakdowns extends React.Component {
                         console.log(e);
                         let context = this.props.context;
                         context.setState({ breakdownCustomizationTipDismissed: true });
-                    }}
-                >
+                    }}>
                     Linear reduction is a simple method for clarity.
                     And, you can set custom year to year levels for your business.
                 </TipseenContent>}>
@@ -29,11 +27,8 @@ export default class YearBreakdowns extends React.Component {
         calculateAnnualTargets(this.props.context, this.props.years, this.props.eoyEmission, this.props.totalToBeNeutralized);
     }
 
-
     render() {
-
         let context = this.props.context ? this.props.context : {};
-
         let viewItems = [];
         let length = context.data.policy.breakdown.length
         for (let y = 0; y < length; y++) {
@@ -63,7 +58,6 @@ export default class YearBreakdowns extends React.Component {
         }
 
         return (
-
             <Flex direction={Flex.directions.COLUMN}>
                 {viewItems}
             </Flex>

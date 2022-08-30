@@ -1,6 +1,4 @@
 import React from "react";
-// import { PureComponent } from "react";
-
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, ReferenceDot, Area } from 'recharts';
 
 

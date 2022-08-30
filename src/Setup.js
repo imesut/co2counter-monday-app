@@ -1,20 +1,14 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
 import "./App.css";
 // import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
-import { Heading, MultiStepIndicator, Box, Flex, Steps, Button } from "monday-ui-react-core"
+import { Box, Flex, Button } from "monday-ui-react-core"
 import { Retry } from "monday-ui-react-core/dist/allIcons";
-
 import { eoyEmissionForecast } from "./Models/Calculators";
-
 import emissionIcon from './img/emission.png';
 import targetIcon from './img/target.png';
 import actionIcon from './img/action.png';
-
-
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, ReferenceDot, PieChart, Pie, BarChart, Bar, Legend } from 'recharts';
+import { XAxis, YAxis, BarChart, Bar, Legend } from 'recharts';
 
 
 // Views - Steps
