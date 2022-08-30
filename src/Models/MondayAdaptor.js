@@ -1,5 +1,5 @@
 import { calculateEmissionsFromExpenses, convertEmissionTypesToCategory } from "./MondayDataModel"
-import { getMondayKeyVal, getStrategyDataFromMonday, setStrategyDataToMonday } from "./MondayApiModel"
+import { getMondayKeyVal, getStrategyDataFromMonday, setMondayKeyVal, setStrategyDataToMonday } from "./MondayApiModel"
 import { eoyEmissionForecast } from "./Calculators";
 
 
@@ -15,33 +15,41 @@ let shouldCalculateAgain = (baseContext) => {
             baseContext.data.this_year.emissionLimit = eoyEmissionForecast(emission)
             baseContext.data.this_year.emissionDistribution = convertEmissionTypesToCategory(obj.emissionsByTypes)
             setStrategyDataToMonday(baseContext.data).then((isSaved) => {
-                console.log("strategy saving", isSaved)
-                resolve(isSaved)
+                if(isSaved){
+                    setMondayKeyVal("lastUpdatedTimestamp", Date.now()).then((isSuccess)=>{
+                        console.log("strategy saving", isSuccess)
+                        resolve(isSuccess)
+                    })
+                }
             })
         })
     })
 }
 
 export const initFromMonday = (baseContext, forceReload) => {
-    getStrategyDataFromMonday().then((obj) => {
+    getStrategyDataFromMonday().then((storedStrategyOnMonday) => {
         // Calculate if never calculated or deleted
-        if (obj === null || forceReload) {
-            shouldCalculateAgain(baseContext).then(() => baseContext.setState({ update: baseContext.state.update }))
+        if (storedStrategyOnMonday === null) {
+            shouldCalculateAgain(baseContext).then(() => baseContext.setState({ lastUpdatedTimestamp: lastUpdatedTimestamp }))
         } else {
             // last updated time 15 mins before
-            getMondayKeyVal("lastUpdatedTimestamp").then((lastUpdatedTimestamp) => {
-                if (lastUpdatedTimestamp !== null) {
+            getMondayKeyVal("lastUpdatedTimestamp").then((timestamp) => {
+                if (timestamp !== null) {
                     let now = Date.now()
-                    if (now - lastUpdatedTimestamp > 15 * 60 * 1000) {
+                    if (now - timestamp > 15 * 60 * 1000 || forceReload) {
                         shouldCalculateAgain(baseContext).then(() => {
-                            baseContext.setState({ lastUpdatedTimestamp: baseContext.state.lastUpdatedTimestamp })
+                            setMondayKeyVal("lastUpdatedTimestamp", Date.now()).then((success)=>{
+                                if(success){
+                                    baseContext.setState({ lastUpdatedTimestamp: timestamp })
+                                }
+                            })
                         })
                     } else {
-                        baseContext.data = obj;
-                        baseContext.setState({ update: baseContext.state.update })
+                        baseContext.data = storedStrategyOnMonday;
+                        baseContext.setState({ lastUpdatedTimestamp: timestamp })
                     }
                 } else {
-                    baseContext.data = obj;
+                    baseContext.data = storedStrategyOnMonday;
                     baseContext.setState({ update: baseContext.state.update })
                 }
             })

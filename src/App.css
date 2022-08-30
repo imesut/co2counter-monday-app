@@ -74,6 +74,7 @@ div.actionBoxesContainer p{
 @media only screen and (max-width: 1150px) {
   body{
   transform: scale(0.85);
+  margin-top: -100px;
 }
 }
 

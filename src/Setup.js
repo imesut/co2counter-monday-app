@@ -33,11 +33,6 @@ class Setup extends React.Component {
 
     componentDidMount() {
         calculateEmissionTargets(this.props.baseContext)
-
-        // monday.api(`query { me { name } }`).then((res) => {
-        //   baseContext.setState({ name: res.data.me.name });
-        //   console.log(res.data.me.name)
-        // });
     }
 
 
