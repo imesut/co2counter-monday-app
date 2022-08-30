@@ -7,6 +7,8 @@ import { calculateEmissionsFromExpenses, convertEmissionTypesToCategory } from "
 import { getMondayKeyVal, getStrategyDataFromMonday, setStrategyDataToMonday } from "./Models/MondayApiModel"
 import { eoyEmissionForecast } from "./Models/Calculators";
 import { calculateAnnualTargets } from "./Models/Calculators"
+import "./Models/MondayAdaptor"
+import { initFromMonday } from "./Models/MondayAdaptor";
 
 class App extends React.Component {
     constructor(props) {
@@ -51,57 +53,8 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        let shouldCalculateAgain = () => {
-            return new Promise((resolve, reject) => {
-                calculateEmissionsFromExpenses().then((obj) => {
-                    let emission = obj.totalEmissions
-                    let offset = obj.offsetTotal
-
-                    this.data.this_year.emission = emission
-                    this.data.this_year.neutralized = offset
-                    this.data.this_year.net = (emission - offset)
-                    this.data.this_year.emissionLimit = eoyEmissionForecast(emission)
-                    this.data.this_year.emissionDistribution = convertEmissionTypesToCategory(obj.emissionsByTypes)
-                    setStrategyDataToMonday(this.data).then((isSaved) => {
-                        console.log("strategy saving", isSaved)
-                        resolve(isSaved)
-                    })
-                })
-            })
-        }
-
-        getStrategyDataFromMonday().then((obj) => {
-            // Calculate if never calculated or deleted
-            if (obj === null) {
-                shouldCalculateAgain().then(() => this.setState({ update: this.state.update }))
-            } else {
-                // last updated time 15 mins before
-                getMondayKeyVal("lastUpdatedTimestamp").then((lastUpdatedTimestamp) => {
-                    if (lastUpdatedTimestamp !== null) {
-                        let now = Date.now()
-                        if (now - lastUpdatedTimestamp > 15 * 60 * 1000) {
-                            shouldCalculateAgain().then(() => {
-                                this.setState({ lastUpdatedTimestamp: this.state.lastUpdatedTimestamp })
-                            })
-                        } else {
-                            this.data = obj;
-                            this.setState({ update: this.state.update })
-                        }
-                    } else {
-                        this.data = obj;
-                        this.setState({ update: this.state.update })
-                    }
-                })
-            }
-        })
-
-        getMondayKeyVal("breakdownCustomizationTipDismissed").then((value) => {
-            if (value !== null) {
-                this.setState({ breakdownCustomizationTipDismissed: value })
-            }
-        })
+        initFromMonday(this)
     }
-
 
     render() {
         return (

@@ -50,7 +50,7 @@ export default class PromiseInput extends React.Component {
                 </div>
 
                 <div className="whiteBg" style={{ display: (data.policy.policy_selection > 0 ? 'flex' : 'none') }}>
-                    <TextField className="rowItemSpacer whiteBg" type={"number"} value={0} size={TextField.sizes.MEDIUM}
+                    <TextField className="rowItemSpacer whiteBg" type={"number"} value={data.policy.endTarget} size={TextField.sizes.MEDIUM}
                         onChange={(value) => {
                             data.policy.endTarget = value;
                             calculateEmissionTargets(context);
@@ -66,7 +66,7 @@ export default class PromiseInput extends React.Component {
 
                         {/* TODO: Don't allow <1 values */}
 
-                        <TextField className="rowItemSpacer whiteBg" type={"number"} value={4} iconName={Calendar} size={TextField.sizes.MEDIUM}
+                        <TextField className="rowItemSpacer whiteBg" type={"number"} value={data.policy.years} iconName={Calendar} size={TextField.sizes.MEDIUM}
                             onChange={(value) => {
                                 data.policy.years = value;
                                 calculateEmissionTargets(context);

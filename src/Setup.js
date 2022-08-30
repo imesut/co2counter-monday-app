@@ -24,6 +24,7 @@ import SectionTitle from "./Components/SectionTitle";
 import ActionBox from "./Components/ActionBox";
 import { contentColors } from "./Data/contentColors";
 import { AddSmall } from "monday-ui-react-core/dist/icons";
+import { initFromMonday } from "./Models/MondayAdaptor";
 
 
 // const monday = mondaySdk();
@@ -48,10 +49,10 @@ class Setup extends React.Component {
 
         let baseContext = this.props.baseContext;
 
-        let emissionDistribution = this.props.baseContext.data.this_year.emissionDistribution;
-        let emissionTotal = this.props.baseContext.data.this_year.emission;
+        let emissionDistribution = baseContext.data.this_year.emissionDistribution;
+        let emissionTotal = baseContext.data.this_year.emission;
 
-        let timestamp = this.props.baseContext.state.lastUpdatedTimestamp
+        let timestamp = baseContext.state.lastUpdatedTimestamp
         let dateDisplayOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
         let date = new Date(timestamp);
         let dateToDisplay = date.toLocaleDateString("en-GB", dateDisplayOptions)

@@ -45,7 +45,10 @@ export default class YearBreakdowns extends React.Component {
                                     context.setState({ setupStep: context.state.setupStep });
                                 }
                             } />
+
+                            {/* Insert tipseen to the first input item */}
                             {(y === 0 & !context.state.breakdownCustomizationTipDismissed) ? this.tipseen : ""}
+                            
                         </div>
                         <p className="noWrap rowItemSpacer">kg-CO2</p>
                     </Flex>
