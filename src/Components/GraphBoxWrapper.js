@@ -14,7 +14,7 @@ export default class GraphBoxWrapper extends React.Component {
 
         return (
             <>
-                <Box padding={Box.paddings.MEDIUM} rounded={Box.roundeds.BIG} shadow={Box.shadows.SMALL} margin={Box.margins.MEDIUM}>
+                <Box className="Box" padding={Box.paddings.MEDIUM} rounded={Box.roundeds.BIG} shadow={Box.shadows.SMALL} margin={Box.margins.MEDIUM}>
                     <Heading value={heading} type={Heading.types.h3} size="medium" brandFont />
                     <ResponsiveContainer width={width ? width : "100%"} minWidth={300} height={(height ? height : 150)}>
                         {this.props.children}

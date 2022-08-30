@@ -1,20 +1,20 @@
-export function calculateEmissionTargets(context){
+export function calculateEmissionTargets(baseContext){
 
     console.log("calculate emissions called.")
-    let policy = context.data.policy.policy_selection
-    let data = context.data;
+    let policy = baseContext.data.policy.policy_selection
+    let data = baseContext.data;
     let operation = (policy === 1) ? 1 : ( policy === 0 ? 0 : -1); // Minus if the policy is to reach a level. 
     let totalToBeNeutralized = ( eoyEmissionForecast(data.this_year.emission) + data.policy.endTarget * operation);
     console.log("totalToBeNeutralized", totalToBeNeutralized);
 
     // Update global objects
-    context.data.policy.totalToBeNeutralized = totalToBeNeutralized;
-    calculateAnnualTargets(context, context.data.policy.years, eoyEmissionForecast(context.data.this_year.emission), context.data.policy.totalToBeNeutralized)
-    context.setState({ setupStep: context.state.setupStep })
+    baseContext.data.policy.totalToBeNeutralized = totalToBeNeutralized;
+    calculateAnnualTargets(baseContext, baseContext.data.policy.years, eoyEmissionForecast(baseContext.data.this_year.emission), baseContext.data.policy.totalToBeNeutralized)
+    baseContext.setState({ setupStep: baseContext.state.setupStep })
 }
 
 
-export function calculateAnnualTargets(context, years, eoyEmission, totalToBeNeutralized){
+export function calculateAnnualTargets(baseContext, years, eoyEmission, totalToBeNeutralized){
 
     console.log("calculateAnnualTargets", totalToBeNeutralized, eoyEmission);
     let perYearValue = totalToBeNeutralized / years;
@@ -27,7 +27,7 @@ export function calculateAnnualTargets(context, years, eoyEmission, totalToBeNeu
         })
     }
 
-    context.data.policy.breakdown = breakdowns;
+    baseContext.data.policy.breakdown = breakdowns;
     console.log("breakdowns", breakdowns)
 }
 

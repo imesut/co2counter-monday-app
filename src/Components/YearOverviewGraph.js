@@ -27,7 +27,7 @@ export default class YearOverviewGraph extends React.Component {
             <>
                 <BarChart layout="vertical" width={width ? width : 400} height={(height ? height : 150)-40} data={data} barCategoryGap={-1}>
                     <YAxis type="category" dataKey="name" width={100} />
-                    <XAxis type="number" domain={["dataMin", dataMax => axisMaxValue]}
+                    <XAxis type="number" domain={["dataMin", dataMax => axisMaxValue * 1.5]}
                         tickFormatter={(tick) => {
                             return `${Math.round(tick / limit * 100)}%`;
                         }} />

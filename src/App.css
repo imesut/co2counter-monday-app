@@ -10,6 +10,7 @@ body {
   align-items: left;
   justify-content: flex-start;
   padding: 20px;
+  min-width: 1150px;
 }
 
 .boxWrapper {
@@ -64,4 +65,30 @@ body {
 div.actionBoxesContainer p{
   margin: 0;
   padding: 0 5px 5px 10px;
+}
+
+.Box{
+  background-color: #ffffff
+}
+
+@media only screen and (max-width: 1150px) {
+  body{
+  transform: scale(0.85);
+}
+}
+
+@media (prefers-color-scheme: dark) {
+  .App, h1, h2, h3, text, p, input, text{
+  color: #cccccc !important
+}
+
+.Box{
+  background-color: #0b0d27
+}
+
+.whiteBg{
+  background-color: rgba(0,0,0,0);
+}
+
+
 }

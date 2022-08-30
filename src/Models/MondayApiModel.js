@@ -36,6 +36,7 @@ export function retrieveBoardData(baseContext) {
                     let views = resp.data.boards[0].views
                     views.forEach(view => {
 
+
                         switch (view.type) {
                             case "FormBoardView":
                                 baseContext.state.offsetFormHref = "/boards/" + boardId + "/views/" + view.id

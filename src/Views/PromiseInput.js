@@ -24,8 +24,8 @@ export default class PromiseInput extends React.Component {
 
     render() {
 
-        let context = this.props.context ? this.props.context : {};
-        let data = context.data;
+        let baseContext = this.props.baseContext ? this.props.baseContext : {};
+        let data = baseContext.data;
 
 
         return (
@@ -34,14 +34,13 @@ export default class PromiseInput extends React.Component {
 
                 <Heading type={Heading.types.h1} value="We promise to," size="medium" brandFont />
                 <div className="rowItemSpacer" style={{ minWidth: '300px' }}>
-                    <Dropdown
-                        // ref={context.policySelectorRef}
+                    <Dropdown className="whiteBg"
                         onChange={(e) => {
                             data.policy.policy_selection = e.value;
                             data.policy.policy_name = e.label;
-                            calculateEmissionTargets(context);
+                            calculateEmissionTargets(baseContext);
                             // Trigger a refresh
-                            context.setState({ setupStep: context.state.setupStep });
+                            baseContext.setState({ setupStep: baseContext.state.setupStep });
                         }}
                         options={carbonNeutralizationStrategies}
                         placeholder={carbonNeutralizationStrategies[0].label}
@@ -53,7 +52,7 @@ export default class PromiseInput extends React.Component {
                     <TextField className="rowItemSpacer whiteBg" type={"number"} value={data.policy.endTarget} size={TextField.sizes.MEDIUM}
                         onChange={(value) => {
                             data.policy.endTarget = value;
-                            calculateEmissionTargets(context);
+                            calculateEmissionTargets(baseContext);
                         }
                         } />
                     <p className="rowItemSpacer noWrap">kg-CO2</p>
@@ -69,7 +68,7 @@ export default class PromiseInput extends React.Component {
                         <TextField className="rowItemSpacer whiteBg" type={"number"} value={data.policy.years} iconName={Calendar} size={TextField.sizes.MEDIUM}
                             onChange={(value) => {
                                 data.policy.years = value;
-                                calculateEmissionTargets(context);
+                                calculateEmissionTargets(baseContext);
                             }
                             }
                         />
@@ -83,7 +82,7 @@ export default class PromiseInput extends React.Component {
                     totalToBeNeutralized={data.policy.totalToBeNeutralized}
                     years={data.policy.years}
                     eoyEmission={eoyEmissionForecast(data.this_year.emission)}
-                    context={context} />
+                    baseContext={baseContext} />
 
                 <Button success={this.state.savedWithSuccess} successIcon={Check} successText="Promise Saved"
                     onClick={(e) => {

@@ -14,7 +14,7 @@ class YearOverviewWidget extends React.Component {
     componentDidMount() {}
 
     render() {
-        let baseContext = this.props.context;
+        let baseContext = this.props.baseContext;
         return <div className="App" style={{ display: "flex", flexDirection: "column" }}>
             <Heading value="Year Status" type={Heading.types.h3} size="medium" brandFont />
             <YearOverviewGraph

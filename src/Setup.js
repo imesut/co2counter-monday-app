@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 // import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
-import { Box, Flex, Button, Link } from "monday-ui-react-core"
+import { Box, Flex, Button } from "monday-ui-react-core"
 import { Retry } from "monday-ui-react-core/dist/allIcons";
 import { eoyEmissionForecast } from "./Models/Calculators";
 import emissionIcon from './img/emission.png';
@@ -30,10 +30,6 @@ import { initFromMonday } from "./Models/MondayAdaptor";
 // const monday = mondaySdk();
 
 class Setup extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
 
     componentDidMount() {
         calculateEmissionTargets(this.props.baseContext)
@@ -75,7 +71,7 @@ class Setup extends React.Component {
 
 
                 {/* COL 1 */}
-                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "33vw" }}>
+                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "33vw", minWidth: 350 }}>
 
                     <SectionTitle icon={emissionIcon} title="Overview" />
 
@@ -84,11 +80,11 @@ class Setup extends React.Component {
                     </GraphBoxWrapper>
 
                     <div style={{ width: "100%", maxWidth: "30vw", textAlign: "center" }}>
-                        <Box padding={Box.paddings.SMALL} rounded={Box.roundeds.MEDIUM} border={Box.borders.DEFAULT}>
+                        <Box className="Box" padding={Box.paddings.SMALL} rounded={Box.roundeds.MEDIUM} border={Box.borders.DEFAULT}>
 
                             <p>Your Current: {Number((emissionTotal / 1000).toFixed(2))} → {Number((eoyEmissionForecast(emissionTotal) / 1000).toFixed(2))} tonnes Emission</p>
                             <p>Till end of the year: your pace will result in {Number((eoyEmissionForecast(emissionTotal) / 1000).toFixed(2))} tonnes.</p>
-                            <p className="subtext">{Number((eoyEmissionForecast(emissionTotal) / 1000).toFixed(2))} tonnes causes to melt <b>{Number((eoyEmissionForecast(emissionTotal) / 1000 * 3).toFixed(2))} m3</b> arctic ice. <a href="https://www.airclim.org/acidnews/1-tonne-co2-melts-3-m2-arctic-ice">🔗</a></p>
+                            <p className="subtext">This causes to melt <b>{Number((eoyEmissionForecast(emissionTotal) / 1000 * 3).toFixed(2))} m3</b> arctic ice. <a href="https://www.airclim.org/acidnews/1-tonne-co2-melts-3-m2-arctic-ice">🔗</a></p>
                         </Box>
                     </div>
 
@@ -106,7 +102,7 @@ class Setup extends React.Component {
 
                 {/* COL 2 */}
 
-                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "33vw" }}>
+                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "33vw", minWidth: 350 }}>
 
                     <SectionTitle icon={targetIcon} title="Set Targets" />
 
@@ -114,12 +110,12 @@ class Setup extends React.Component {
                         <TargetGraph targets={baseContext.data.policy.breakdown} current={baseContext.data.this_year.emission}></TargetGraph>
                     </GraphBoxWrapper>
 
-                    <PromiseInput context={baseContext} data={baseContext.data} />
+                    <PromiseInput baseContext={baseContext} data={baseContext.data} />
 
                 </Flex>
 
                 {/* COL3 */}
-                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "33vw" }}>
+                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "33vw", minWidth: 350 }}>
                     <SectionTitle icon={actionIcon} title="Take Action" />
 
                     <GraphBoxWrapper width={300} height={150} heading="Year Status">

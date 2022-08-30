@@ -12,8 +12,8 @@ export default class YearBreakdowns extends React.Component {
                 <TipseenContent isSubmitHidden={true} isDismissHidden={false} title="Feel Free to Set Your Pace"
                     onDismiss={(e) => {
                         console.log(e);
-                        let context = this.props.context;
-                        context.setState({ breakdownCustomizationTipDismissed: true });
+                        let baseContext = this.props.baseContext;
+                        baseContext.setState({ breakdownCustomizationTipDismissed: true });
                     }}>
                     Linear reduction is a simple method for clarity.
                     And, you can set custom year to year levels for your business.
@@ -24,30 +24,36 @@ export default class YearBreakdowns extends React.Component {
     }
 
     componentDidMount() {
-        calculateAnnualTargets(this.props.context, this.props.years, this.props.eoyEmission, this.props.totalToBeNeutralized);
+        calculateAnnualTargets(this.props.baseContext, this.props.years, this.props.eoyEmission, this.props.totalToBeNeutralized);
     }
 
     render() {
-        let context = this.props.context ? this.props.context : {};
+        let baseContext = this.props.baseContext ? this.props.baseContext : {};
         let viewItems = [];
-        let length = context.data.policy.breakdown.length
+        let length = baseContext.data.policy.breakdown.length
         for (let y = 0; y < length; y++) {
 
-            let item = context.data.policy.breakdown[y];
+            let item = baseContext.data.policy.breakdown[y];
             viewItems.push(
                 <>
                     <Flex direction={Flex.directions.ROW}>
                         <p className="noWrap rowItemSpacer">Not exceed</p>
                         <div className="whiteBg">
+                            
+                            {/*
+                                Monday SDK should be updated to support numeric TextField.
+                                Currently it's working but giving an error message.
+                            */}
+
                             <TextField className="rowItemSpacer" type={"number"} value={item.target} onChange={
                                 (value) => {
-                                    context.data.policy.breakdown[y].target = value;
-                                    context.setState({ setupStep: context.state.setupStep });
+                                    baseContext.data.policy.breakdown[y].target = value;
+                                    baseContext.setState({ setupStep: baseContext.state.setupStep });
                                 }
                             } />
 
                             {/* Insert tipseen to the first input item */}
-                            {(y === 0 & !context.state.breakdownCustomizationTipDismissed) ? this.tipseen : ""}
+                            {(y === 0 & !baseContext.state.breakdownCustomizationTipDismissed) ? this.tipseen : ""}
                             
                         </div>
                         <p className="noWrap rowItemSpacer">kg-CO2</p>
