@@ -4,7 +4,7 @@ body {
 }
 
 .App {
-  height: 100vh;
+  width: calc(100vw - 40px) !important;
   width: 100vw;
   display: flex;
   align-items: left;

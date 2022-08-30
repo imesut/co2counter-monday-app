@@ -63,17 +63,19 @@ class Setup extends React.Component {
         return <div className="App" style={{ display: "flex", flexDirection: "column" }}>
 
             <Flex direction={Flex.directions.ROW} justify={Flex.justify.END} >
-                <p className="subtext" style={{ margin: 0, padding: 0, fontSize: "0.75rem", textAlign: "right" }}>
+                <p className="subtext" style={{ margin: 0, padding: 0, marginRight: 12, fontSize: "0.75rem", lineHeight: "12px", textAlign: "right" }}>
                     Last Update: {dateToDisplay}<br></br>{asMinutes + " minutes ago"}
                 </p>
-                <Button kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL} leftIcon={Retry}></Button>
+                <Button kind={Button.kinds.TERTIARY} size={Button.sizes.SMALL} leftIcon={Retry} onClick={
+                    initFromMonday(baseContext, true)
+                }></Button>
             </Flex>
 
             <Flex direction={Flex.directions.ROW} justify={Flex.justify.SPACE_BETWEEN} align={Flex.align.START}>
 
 
                 {/* COL 1 */}
-                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "calc(32vw -24*3)" }}>
+                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "33vw" }}>
 
                     <SectionTitle icon={emissionIcon} title="Overview" />
 
@@ -104,7 +106,7 @@ class Setup extends React.Component {
 
                 {/* COL 2 */}
 
-                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "calc(32vw -24*3)" }}>
+                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "33vw" }}>
 
                     <SectionTitle icon={targetIcon} title="Set Targets" />
 
@@ -117,7 +119,7 @@ class Setup extends React.Component {
                 </Flex>
 
                 {/* COL3 */}
-                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "calc(32vw - 24*3)" }}>
+                <Flex direction={Flex.directions.COLUMN} style={{ maxWidth: "33vw" }}>
                     <SectionTitle icon={actionIcon} title="Take Action" />
 
                     <GraphBoxWrapper width={300} height={150} heading="Year Status">
