@@ -1,9 +1,9 @@
 import React from "react";
-import "./App.css";
 import "monday-ui-react-core/dist/main.css"
-import Setup from "./Setup"
+// import Setup from "./Setup"
 import "./Models/MondayAdaptor"
 import { initFromMonday } from "./Models/MondayAdaptor";
+import FactsWidget from "./Widgets/FactsWidget";
 
 class App extends React.Component {
     constructor(props) {
@@ -51,14 +51,16 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        console.log("do you call this?")
-        initFromMonday(this)
+        // initFromMonday(this)
     }
 
     render() {
+
         return (
             <>
-                <Setup baseContext={this} />
+            
+                {/* <Setup baseContext={this} /> */}
+                <FactsWidget />
                 {/* <YearOverviewWidget context={this} /> */}
             </>
         )

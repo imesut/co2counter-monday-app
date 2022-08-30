@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+// import "./App.css";
 import mondaySdk from "monday-sdk-js";
 const monday = mondaySdk();
 

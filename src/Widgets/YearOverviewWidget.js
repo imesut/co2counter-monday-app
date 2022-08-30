@@ -1,10 +1,8 @@
 import React from "react";
-
-import "./App.css";
 import "monday-ui-react-core/dist/main.css"
-import YearOverviewGraph from "./Components/YearOverviewGraph"
+import YearOverviewGraph from "../Components/YearOverviewGraph"
 import {Heading } from "monday-ui-react-core"
-import { eoyEmissionForecast } from "./Models/Calculators"
+import { eoyEmissionForecast } from "../Models/Calculators"
 
 class YearOverviewWidget extends React.Component {
     constructor(props) {
