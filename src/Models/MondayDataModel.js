@@ -15,11 +15,11 @@ var expenseTypeColNum = 0
 var co2gbpColNum = 0
 var offsetColNum = 0
 
-export function calculateEmissionsFromExpenses() {
+export function calculateEmissionsFromExpenses(baseContext) {
 
     return new Promise((resolve, reject) => {
 
-        let boardData = retrieveBoardData()
+        let boardData = retrieveBoardData(baseContext)
 
         boardData.then((resp) => {
             let items = resp.data.boards[0].items

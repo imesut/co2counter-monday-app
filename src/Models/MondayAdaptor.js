@@ -6,7 +6,7 @@ import { calculateAnnualTargets } from "./Calculators"
 
 let shouldCalculateAgain = (baseContext) => {
     return new Promise((resolve, reject) => {
-        calculateEmissionsFromExpenses().then((obj) => {
+        calculateEmissionsFromExpenses(baseContext).then((obj) => {
             let emission = obj.totalEmissions
             let offset = obj.offsetTotal
 

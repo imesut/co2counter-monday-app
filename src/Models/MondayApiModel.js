@@ -5,14 +5,14 @@ const strategyKey = "carbon-key"
 var carbonBoardId = 0
 
 
-export function retrieveBoardData() {
+export function retrieveBoardData(baseContext) {
     return new Promise((resolve, reject) => {
         monday.listen("context", res => {
             let boardId = res.data.boardIds[0];
-            console.log("boardId", boardId);
+            // console.log("boardId", boardId);
             carbonBoardId = boardId;
             let theme = res.data.theme //"dark" or "light"
-            
+
             monday.api(`query {
                     boards (ids: ` + boardId + `) {
                     items {
@@ -24,7 +24,34 @@ export function retrieveBoardData() {
                 }
             }`).then(cols => {
                 // console.log(cols)
-                resolve(cols)
+                monday.api(`query {
+                    boards (ids: ` + boardId + `) {
+                        views {
+                            id
+                            name
+                            type
+                        }
+                    }
+                }`).then((resp) => {
+                    let views = resp.data.boards[0].views
+                    views.forEach(view => {
+
+                        switch (view.type) {
+                            case "FormBoardView":
+                                baseContext.state.offsetFormHref = "/boards/" + boardId + "/views/" + view.id
+                                break;
+                            case "TableBoardView":
+                                if (view.name.indexOf("Expense") > -1) {
+                                    baseContext.state.expenseTableHref = "/boards/" + boardId + "/views/" + view.id
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+
+                    resolve(cols)
+                })
             })
         }
         )
@@ -32,7 +59,7 @@ export function retrieveBoardData() {
 }
 
 
-export function getMondayKeyVal(key){
+export function getMondayKeyVal(key) {
     return new Promise((resolve, reject) => {
         monday.storage.instance.getItem(key).then(res => {
             // console.log(key, res.data.value);
@@ -42,7 +69,7 @@ export function getMondayKeyVal(key){
     })
 }
 
-export function setMondayKeyVal(key, value){
+export function setMondayKeyVal(key, value) {
     let stringValue = JSON.stringify(value);
     return new Promise((resolve, reject) => {
         monday.storage.instance.setItem(key, stringValue).then(res => {
@@ -53,7 +80,7 @@ export function setMondayKeyVal(key, value){
             })
         });
     })
-    
+
 }
 
 export function getStrategyDataFromMonday() {

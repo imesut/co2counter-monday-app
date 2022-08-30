@@ -31,7 +31,7 @@ export default class YearOverviewGraph extends React.Component {
                         tickFormatter={(tick) => {
                             return `${Math.round(tick / limit * 100)}%`;
                         }} />
-                    <ReferenceLine x={limit}></ReferenceLine>
+                    <ReferenceLine x={limit} isFront={true} stroke="black" strokeWidth={4} ></ReferenceLine>
                     <Bar dataKey="range" fill="#8884d8">
                         {
                             data.map((entry, index) => (

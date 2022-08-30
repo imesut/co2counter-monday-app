@@ -15,7 +15,7 @@ export default class TargetGraph extends React.Component {
                     <CartesianGrid strokeDasharray="5 3" />
                     <XAxis dataKey="year"/>
                     <YAxis label={{ value: "kg-CO2", angle: -90, position: "insideLeft" }} width={80} domain={ [ dataMin => Math.min(0, dataMin), dataMax => Math.max(dataMax, this.props.current) * 110/100 ] } />
-                    <ReferenceLine y={0} stroke="black" />
+                    {/* <ReferenceLine x={100000} stroke="green"  /> */}
                     {/* <ReferenceLine stroke="green" strokeDasharray="3 3" segment={[{ x: '1', y: 100000 }, { x: '3', y: 0 }]} /> */}
                     <ReferenceDot x={1} y={this.props.current} r={6} fill="black" />
                     <Line type="linear" strokeWidth={4} dataKey="target" stroke="#0073ea" />

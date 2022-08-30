@@ -17,7 +17,10 @@ class App extends React.Component {
             settings: {},
             update: 0,
             lastUpdatedTimestamp: 1661854888326,
-            breakdownCustomizationTipDismissed: false
+            breakdownCustomizationTipDismissed: false,
+            expenseTableHref: "#",
+            offsetFormHref: "#"
+
         };
 
         this.month = (new Date()).getMonth() + 1;

@@ -126,7 +126,7 @@ class Setup extends React.Component {
                         <YearOverviewGraph
                             currentEmission={baseContext.data.this_year.emission}
                             currentNeutralized={baseContext.data.this_year.neutralized}
-                            limitEmission={eoyEmissionForecast(baseContext.data.this_year.emission)}
+                            limitEmission={baseContext.data.policy.breakdown[0].target}
                             netEmission={baseContext.data.this_year.net}
                         />
                     </GraphBoxWrapper>
@@ -134,13 +134,16 @@ class Setup extends React.Component {
                     <div className="actionBoxesContainer" >
 
                         <ActionBox heading="Avoid" actionName="Find Something to Avoid"
-                            description="Where appropriate, avoid and cut the emission sources." />
+                            description="Where appropriate, avoid and cut the emission sources."
+                            url={baseContext.state.expenseTableHref} />
 
                         <ActionBox heading="Reduce" actionName="Overview to Reduce"
-                            description="If you cannot avoid it, how you can decrease your consumption, to reduce the emissions?" />
+                            description="If you cannot avoid it, how you can decrease your consumption, to reduce the emissions?"
+                            url={baseContext.state.expenseTableHref} />
 
                         <ActionBox heading="Offset" actionName="Add an Offset Record" icon={AddSmall}
-                            description="When you cannot avoid or reduce, you can contribute to carbon negative projects worldwide, to make an impact in total." />
+                            description="When you cannot avoid or reduce, you can contribute to carbon negative projects worldwide, to make an impact in total."
+                            url={baseContext.state.offsetFormHref} />
 
                     </div>
 
