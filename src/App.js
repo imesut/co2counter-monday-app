@@ -4,6 +4,7 @@ import "monday-ui-react-core/dist/main.css"
 import Setup from "./Setup"
 import "./Models/MondayAdaptor"
 import { initFromMonday } from "./Models/MondayAdaptor";
+import NetZeroRoadmapWidget from "./Widgets/NetZeroRoadmapWidget";
 
 class App extends React.Component {
     constructor(props) {
@@ -58,8 +59,7 @@ class App extends React.Component {
     render() {
         return (
             <>
-                <Setup baseContext={this} />
-                {/* <YearOverviewWidget context={this} /> */}
+                <NetZeroRoadmapWidget baseContext={this}></NetZeroRoadmapWidget>
             </>
         )
     }
