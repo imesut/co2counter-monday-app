@@ -1,12 +1,13 @@
 # co2counter - A Monday.com Carbon Emission Strategy Helper Application
 
-![co2counter logo](./assets/co2coLogo.jpeg)
 
 <a href="https://auth.monday.com/oauth2/authorize?client_id=122ebc2731e2012318cfb2825ef647ec&response_type=install">
-<img alt="Add to monday.com" height="42" src="https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/remote_mondaycom_static/uploads/Tal/4b5d9548-0598-436e-a5b6-9bc5f29ee1d9_Group12441.png" />
-</a>
-
-
+                <img
+                  alt="Add to monday.com"
+                  height="42"
+                  src="https://dapulse-res.cloudinary.com/image/upload/f_auto,q_auto/remote_mondaycom_static/uploads/Tal/4b5d9548-0598-436e-a5b6-9bc5f29ee1d9_Group12441.png"
+                />
+              </a>
 
 ## What it does?
 
@@ -56,5 +57,9 @@ If you want to build apps, you can change checkout to that branch and use the la
 - `npm start run` : opens a local development environment, you should provide a token inside the app for simulating data
 relations
 - `npm run build` : builds the app to deploy as a zip file to the monday platform
-- `ngrok http 3000` : is the easiest way to run your local changes in a public environment, recommended to test on
-monday.com
+- `ngrok http 3000` : is the easiest way to run your local changes in a public environment, recommended to test on monday.com
+
+
+.
+
+![co2counter logo](./assets/co2coLogo.jpeg)
